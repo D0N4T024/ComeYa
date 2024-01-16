@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComeYaAPI", "ComeYaAPI\ComeYaAPI.csproj", "{CE46455D-BE0B-4491-B2BB-80509CCE266B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE46455D-BE0B-4491-B2BB-80509CCE266B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE46455D-BE0B-4491-B2BB-80509CCE266B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE46455D-BE0B-4491-B2BB-80509CCE266B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE46455D-BE0B-4491-B2BB-80509CCE266B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4A1FD522-D923-4C6E-A723-6D5CE2459250}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,17 @@
+﻿Este archivo contiene las instrucciones para correr stripe Cli
+
+1 - En el cmd viaja a la ruta donde se encuentra el stripe.exe y correlo
+   //Ejemplo: ./ruta/stripe
+
+2 - Luego haz login con el comando stripe login
+
+3 - Luego aparecera un link para iniciar sesion en stripe, la cuenta es
+       
+       Email: mariolora975@gmail.com
+       Contraseña: ComeYa123$ o ComeYa$123
+
+// Avisame cuando lo hagas porque tengo validacion de google authorization token
+
+4 - Ya que ingresaste solo corre el comando stripe listen --forward-to https://localhost:7057/ComeYa/Checkout/stripeWebhook
+
+Y asi tendras listo el checkout de stripe
