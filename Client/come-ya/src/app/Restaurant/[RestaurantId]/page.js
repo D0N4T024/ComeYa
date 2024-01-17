@@ -19,6 +19,7 @@ import { useSearchParams } from 'next/navigation';
 import Apiservice from '@/Apiservice';
 
 
+
 let theme = createTheme({
   palette: {
     primary: {
@@ -126,8 +127,13 @@ export default function RestaurantMenu({params}) {
   const [restItems, setItems] = useState([]);
   const [category, setCategory] = useState("");
   const [food, setFood] = useState("");
+  const [parameters, setParameters] = useState({
+    restaurant: parseInt(params.RestaurantId),
+    category:"",
+    food: ""
+  })
 
-  var parameters ={restaurant: parseInt(params.RestaurantId), category:null,food:null};
+ 
   //console.log(params);
     useEffect(() => {
       //console.log(params)
@@ -187,293 +193,7 @@ export default function RestaurantMenu({params}) {
   };
 
 
-  const items = [
-    {
-      id: 1,
-      food: 'PAPA SUPER SUPREMA',
-      category: 'vegana',
-      description: 'Papas fritas crujientes, Queso fundido, Salsa rosada especial, pechuga de pollo, pierna de cerdo, tocineta y puerro.',
-      price: 750,
-      image:
-        'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'La Barra (Atalaya)',
-    },
-    {
-      id: 2,
-      food: 'Combo Mega Stacker',
-      category: 'no vegetariana',
-      description: 'Pan, doble carne whopper, tocino, queso y salsa stacker, acompañado de papas regular y Coca-Cola 500ml',
-      price: 600,
-      image:
-        'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Burger King',
-    },
-    {
-      id: 3,
-      food: 'Big Box Plus',
-      category: 'no vegetariana',
-      description: '1 Sandwich Doble Crunch + 1 Papa frita Peq + 1 Biscuit + 1 Pieza de pollo + 1 Refresco de botella Peq',
-      price: 499.9,
-      image:
-        'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'KFC',
-    },
-    {
-      id: 4,
-      food: 'Ensalada César',
-      category: 'vegetariana',
-      description: 'Lechuga romana, crutones, queso parmesano y aderezo César. Añade pollo a la parrilla opcionalmente.',
-      price: 350,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Fresh Greens',
-    },
-    {
-      id: 5,
-      food: 'Sushi Fusión',
-      category: 'mariscos',
-      description: 'Rollos de sushi variados con rellenos frescos y sabrosos. Acompañado de salsa de soja y jengibre encurtido.',
-      price: 900,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Sakura Sushi',
-    },
-    {
-      id: 6,
-      food: 'Pizza Suprema',
-      category: 'no vegetariana',
-      description: 'Mozzarella, pepperoni, champiñones, aceitunas, jamón y salsa de tomate en una masa crujiente y deliciosa.',
-      price: 550,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Pizza Italia',
-    },
-    {
-      id: 7,
-      food: 'Tacos Al Pastor',
-      category: 'no vegetariana',
-      description: 'Tacos de cerdo adobado con piña, cebolla y cilantro. ¡Auténtico sabor mexicano!',
-      price: 180,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Taquería El Rey',
-    },
-    {
-      id: 8,
-      food: 'Wrap Vegano',
-      category: 'vegana',
-      description: 'Wrap relleno de verduras frescas, hummus, aguacate y aderezo de tahini. Acompañado de batatas fritas.',
-      price: 480,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Green Bites',
-    },
-    {
-      id: 9,
-      food: 'Ramen de Mariscos',
-      category: 'mariscos',
-      description: 'Sopa de ramen con caldo de mariscos, fideos, camarones, almejas y cebollín. ¡Una explosión de sabores!',
-      price: 680,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Tokyo Ramen House',
-    },
-    {
-      id: 10,
-      food: 'Hamburguesa BBQ',
-      category: 'no vegetariana',
-      description: 'Hamburguesa con carne a la parrilla, queso cheddar, cebolla caramelizada, tocino y salsa BBQ. Servida con papas fritas.',
-      price: 620,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Smokehouse Grill',
-    },
-    {
-      id: 11,
-      food: 'Burrito Vegetariano',
-      category: 'vegetariana',
-      description: 'Burrito relleno de frijoles, arroz, aguacate, pimientos y salsa fresca. ¡Una opción deliciosa y saludable!',
-      price: 420,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Burritos Verdes',
-    },
-    {
-      id: 12,
-      food: 'Sándwich de Pavo',
-      category: 'no vegetariana',
-      description: 'Sándwich con pechuga de pavo, queso suizo, lechuga, tomate y mostaza. Servido con papas al horno.',
-      price: 380,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Fresh Deli',
-    },
-    {
-      id: 14,
-      food: 'Pollo a la Brasa',
-      category: 'no vegetariana',
-      description: 'Pollo entero asado a la brasa con papas doradas y salsa de ají amarillo. Acompañado de ensalada fresca.',
-      price: 850,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'La Barra (Atalaya)',
-    },
-    {
-      id: 15,
-      food: 'Lomo Saltado',
-      category: 'no vegetariana',
-      description: 'Salteado de carne de res con cebolla, tomate, ají amarillo y papas fritas. Servido con arroz.',
-      price: 780,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'La Barra (Atalaya)',
-    },
-    {
-      id: 16,
-      food: 'Whopper Doble',
-      category: 'no vegetariana',
-      description: 'Doble carne de res, queso, lechuga, tomate, cebolla, pepinillos y salsa de la casa en un pan suave con ajonjolí.',
-      price: 680,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Burger King',
-    },
-    {
-      id: 17,
-      food: 'Nuggets de Pollo',
-      category: 'no vegetariana',
-      description: 'Porción de nuggets de pollo crujientes. Acompañados de salsa a elección: barbacoa, mostaza o miel.',
-      price: 350,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Burger King',
-    },
-    {
-      id: 18,
-      food: 'Filete de Pescado',
-      category: 'mariscos',
-      description: 'Filete de pescado fresco empanizado y frito. Servido con papas fritas y salsa tártara.',
-      price: 690,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'KFC',
-    },
-    {
-      id: 19,
-      food: 'Wrap de Pollo',
-      category: 'no vegetariana',
-      description: 'Wrap de pollo a la parrilla con lechuga, tomate, queso cheddar y salsa ranchera. Acompañado de nachos.',
-      price: 420,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'KFC',
-    },
-    {
-      id: 20,
-      food: 'Café Latte',
-      category: 'bebidas',
-      description: 'Café espresso con leche vaporizada y una fina capa de espuma. La opción perfecta para los amantes del café.',
-      price: 180,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Starbucks',
-    },
-    {
-      id: 21,
-      food: 'Frappuccino de Vainilla',
-      category: 'bebidas',
-      description: 'Mezcla cremosa de café, leche y hielo con esencia de vainilla. Decorado con crema batida y jarabe de vainilla.',
-      price: 250,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Starbucks',
-    },
-    {
-      id: 22,
-      food: 'Subway Melt',
-      category: 'no vegetariana',
-      description: 'Submarino con pechuga de pavo, jamón, tocino, queso suizo, lechuga, tomate y aderezos a elección.',
-      price: 540,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Subway',
-    },
-    {
-      id: 23,
-      food: 'Ensalada Veggie Delight',
-      category: 'vegetariana',
-      description: 'Ensalada fresca con lechuga, espinaca, tomate, pepino, pimientos y aderezo a elección. Opción saludable y deliciosa.',
-      price: 320,
-      image: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      restaurant: 'Subway',
-    },
-  ];
-
-
-  const restaurantes = [
-    {
-      Id: 1,
-      Name: "Burger King",
-      Logo: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-      Description: "Burger King es una cadena de restaurantes de comida rápida que se especializa en hamburguesas y otros productos similares.  Actualmente, Burger King es la segunda cadena de hamburguesas más grande de los Estados Unidos.",
-      Rating: 4.5,
-      Background: "https://bit.ly/2Z4KKcF",
-    },
-    {
-      Id: 2,
-      Name: "McDonald's",
-      Logo: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-      Description: "Burger King es una cadena de restaurantes de comida rápida que se especializa en hamburguesas y otros productos similares.  Actualmente, Burger King es la segunda cadena de hamburguesas más grande de los Estados Unidos.",
-      Rating: 4.2,
-      Background: "https://bit.ly/2Z4KKcF",
-    },
-    {
-      Id: 3,
-      Name: "Pizza Hut",
-      Logo: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-      Description: "Pizza Hut es una cadena internacional de restaurantes de pizzas y comida italiana. Ofrece una variedad de pizzas, pasta, ensaladas y otros platos deliciosos.",
-      Rating: 4.9,
-      Background: "https://bit.ly/2Z4KKcF",
-    },
-    {
-      Id: 4,
-      Name: "Starbucks",
-      Logo: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-      Description: "Starbucks es una cadena global de cafeterías que ofrece una amplia variedad de bebidas a base de café, té, y aperitivos. Es conocida por su ambiente acogedor y café de alta calidad.",
-      Rating: 4.7,
-      Background: "https://bit.ly/2Z4KKcF",
-    },
-    {
-      Id: 5,
-      Name: "KFC, Kentucky Fried Chicken ffffffffffff fffffffff",
-      Logo: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-      Description: "KFC, Kentucky Fried Chicken, es una cadena de restaurantes de comida rápida especializada en pollo frito. Sus recetas originales y crujientes son muy populares en todo el mundo.",
-      Rating: 4.3,
-      Background: "https://bit.ly/2Z4KKcF",
-    },
-    {
-      Id: 6,
-      Name: "Domino's Pizza",
-      Logo: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-      Description: "Domino's Pizza es una cadena de pizzerías conocida por su entrega rápida y su variedad de pizzas. Ofrece opciones de personalización y entrega a domicilio.",
-      Rating: 2.9,
-      Background: "https://bit.ly/2Z4KKcF",
-    },
-    {
-      Id: 7,
-      Name: "Taco Bell",
-      Logo: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-      Description: "Taco Bell es una cadena de restaurantes de comida rápida especializada en comida tex-mex, como tacos, burritos y nachos. Es conocida por su menú sabroso y asequible.",
-      Rating: 4.0,
-      Background: "https://bit.ly/2Z4KKcF",
-    },
-    {
-      Id: 8,
-      Name: "Subway",
-      Logo: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-      Description: "Subway es una cadena de restaurantes especializada en la venta de sándwiches y ensaladas. Es conocida por su opción de personalizar los sándwiches según las preferencias del cliente.",
-      Rating: 4.1,
-      Background: "https://bit.ly/2Z4KKcF",
-    },
-    {
-      Id: 9,
-      Name: "Dunkin'",
-      Logo: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-      Description: "Dunkin' es una cadena de cafeterías y donas conocida por sus cafés, donas y productos horneados. Ofrece una selección variada de bebidas y opciones para el desayuno.",
-      Rating: 3.2,
-      Background: "https://bit.ly/2Z4KKcF",
-    },
-    {
-      Id: 10,
-      Name: "Chick-fil-A",
-      Logo: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-      Description: "Chick-fil-A es una cadena de restaurantes de comida rápida especializada en pollo. Es famosa por sus sándwiches de pollo y opciones de menú de alta calidad.",
-      Rating: 4.6,
-      Background: "https://bit.ly/2Z4KKcF",
-    },
-  ];
+ 
 
 
   //const restaurant = restaurantes.find(item => item.Id == params.RestaurantId);
@@ -485,20 +205,21 @@ export default function RestaurantMenu({params}) {
   let itemId;
   let itemObject;
   let modalState;
-  let info;
+  let info = {};
   if (id !== null) {
     itemId = id;
     //Busca el primer objeto con id coincidente al traido desde el homePage
-    itemObject = items.find(item => item.id == itemId);
-
+    itemObject = restItems.find(item => item.id == itemId);
+    
     // Inicializacion de estados de haber query
     modalState = true;
     info = itemObject;
+    
   } else {
     modalState = false;
     info = {};
   }
-
+ console.log(info)
   const [isModalOpen, setIsModalOpen] = useState(modalState);
 
   const [productInfo, setProductInfo] = useState(info);

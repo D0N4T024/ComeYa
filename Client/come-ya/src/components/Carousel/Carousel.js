@@ -86,85 +86,6 @@ const images = [
   },
 ];
 
-const restaurants = [
-  {
-    Id: 1,
-    Name: "Burger King",
-    Logo: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    Description: "Burger King es una cadena de restaurantes de comida rápida que se especializa en hamburguesas y otros productos similares.  Actualmente, Burger King es la segunda cadena de hamburguesas más grande de los Estados Unidos.",
-    Rating: 4.5,
-  },
-  {
-    Id: 2,
-    Name: "McDonald's",
-    Logo: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    Description: "Burger King es una cadena de restaurantes de comida rápida que se especializa en hamburguesas y otros productos similares.  Actualmente, Burger King es la segunda cadena de hamburguesas más grande de los Estados Unidos.",
-    Rating: 4.2,
-  },
-  {
-    Id: 3,
-    Name: "Pizza Hut",
-    Logo: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
-    Description: "Pizza Hut es una cadena internacional de restaurantes de pizzas y comida italiana. Ofrece una variedad de pizzas, pasta, ensaladas y otros platos deliciosos.",
-    Rating: 4.9,
-  },
-  {
-    Id: 4,
-    Name: "Starbucks",
-    Logo: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    Description: "Starbucks es una cadena global de cafeterías que ofrece una amplia variedad de bebidas a base de café, té, y aperitivos. Es conocida por su ambiente acogedor y café de alta calidad.",
-    Rating: 4.7,
-  },
-  {
-    Id: 4.0,
-    Name: "Subway",
-    Logo: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
-    Description: "Subway es una cadena de restaurantes especializada en la venta de sándwiches y ensaladas. Es conocida por su opción de personalizar los sándwiches según las preferencias del cliente.",
-    Rating: 4.1,
-  },
-  {
-    Id: 5,
-    Name: "KFC, Kentucky Fried Chicken ffffffffffff fffffffff",
-    Logo: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-    Description: "KFC, Kentucky Fried Chicken, es una cadena de restaurantes de comida rápida especializada en pollo frito. Sus recetas originales y crujientes son muy populares en todo el mundo.",
-    Rating: 4.3,
-  },
-  {
-    Id: 6,
-    Name: "Domino's Pizza",
-    Logo: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-    Description: "Domino's Pizza es una cadena de pizzerías conocida por su entrega rápida y su variedad de pizzas. Ofrece opciones de personalización y entrega a domicilio.",
-    Rating: 2.9,
-  },
-  {
-    Id: 7,
-    Name: "Taco Bell",
-    Logo: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-    Description: "Taco Bell es una cadena de restaurantes de comida rápida especializada en comida tex-mex, como tacos, burritos y nachos. Es conocida por su menú sabroso y asequible.",
-    Rating: 4.0,
-  },
-  {
-    Id: 8,
-    Name: "Starbucks",
-    Logo: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-    Description: "Starbucks es una cadena global de cafeterías que ofrece una amplia variedad de bebidas a base de café, té y aperitivos. Es conocida por su ambiente acogedor y café de alta calidad.",
-    Rating: 4.7,
-  },
-  {
-    Id: 9,
-    Name: "Dunkin'",
-    Logo: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-    Description: "Dunkin' es una cadena de cafeterías y donas conocida por sus cafés, donas y productos horneados. Ofrece una selección variada de bebidas y opciones para el desayuno.",
-    Rating: 3.2,
-  },
-  {
-    Id: 10,
-    Name: "Chick-fil-A",
-    Logo: "https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60",
-    Description: "Chick-fil-A es una cadena de restaurantes de comida rápida especializada en pollo. Es famosa por sus sándwiches de pollo y opciones de menú de alta calidad.",
-    Rating: 4.6,
-  },
-]
 
 export default class Carousel extends Component {
   
@@ -217,7 +138,9 @@ export default class Carousel extends Component {
     };
     return (
       <div>
+        
         {this.props.titulo == "Restaurantes" ? (
+          
           <>
             <div className={styles.topConteiner}>
               <div className={styles.tittle}>
@@ -240,23 +163,23 @@ export default class Carousel extends Component {
                 </IconButton>
               </div>
             </div><Slider ref={c => (this.slider = c)} {...settings}>
-              {restaurants.map((restaurant, index) => {
+              {this.props.objects.map((restaurant, index) => {
                 return (
                   <div key={index}>
-                    <Link href={`/Restaurant/${restaurant.Id}`}> 
+                    <Link href={`/Restaurant/${restaurant.id}`}> 
                       <div className={styles.item}>
                         <Image
-                          src={restaurant.Logo}
+                          src={restaurant.logo}
                           width={350}
                           height={175}
                           borderRadius={'5%'}
-                          objectFit='cover'
+                          objectFit='contain'
                           fallbackSrc={'https://via.placeholder.com/350x175'} />
                         <div className={styles.info}>
-                          <Text fontSize='xl' noOfLines={1}>{restaurant.Name}</Text>
+                          <Text fontSize='xl' noOfLines={1}>{restaurant.name}</Text>
                           <Box display='flex' flexDirection='row' alignItems='flex-end'>
                             <StarRateRounded sx={{ color: "#ffc107" }} />
-                            <Text>{restaurant.Rating}</Text>
+                            <Text>{restaurant.rating}</Text>
                           </Box> 
                         </div>
                       </div>
@@ -293,7 +216,8 @@ export default class Carousel extends Component {
               </div>
             </div>
             <Slider ref={c => (this.slider = c)} {...settings}>
-              {images.map((item, index) => {
+              
+              {this.props.objects && this.props.objects.map((item, index) => {
                 return (
                   <div key={index}>
                     <Link href={{
@@ -303,11 +227,11 @@ export default class Carousel extends Component {
                     >
                       <div className={styles.item}>
                         <Image
-                          src={item.image}
+                          src={item.marketingImg1}
                           width={350}
                           height={175}
                           borderRadius={'5%'}
-                          objectFit='cover'
+                          objectFit='contain'
                           fallbackSrc={'https://via.placeholder.com/350x175'} 
                           />
                         <Text fontSize='xl' noOfLines={1}>{item.food}</Text>

@@ -1,4 +1,5 @@
 "use client"
+import LoadingPage from '@/app/loading';
 import { Image, Heading, Text, Button, useToast } from '@chakra-ui/react'
 import styles from './ProductView.module.css'
 import {AddShoppingCartIcon, FormControl, Select, MenuItem, Box }  from '@mui/material'
@@ -31,6 +32,9 @@ const ProductView = ({ onClose, ...props }) => {
       duration: 8000,
     })
     onClose();
+  }
+  if(!props){
+    return <LoadingPage/>
   }
   return (
       <div className={styles.content}>

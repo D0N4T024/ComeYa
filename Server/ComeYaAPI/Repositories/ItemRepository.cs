@@ -23,7 +23,7 @@ namespace ComeYaAPI.Repositories
            
         }
 
-        public async Task<EntityListResult<ReadItemDTO>> GetAllItems(string? type, string? category, decimal price , int page, ulong combo, int restaurant, int rand)
+        public async Task<EntityListResult<ReadItemDTO>> GetAllItems(string? type, string? category, decimal price , int page, ulong combo, int restaurant, int rand, decimal pageSize, int marketingImg)
         {
             var filters = new List<Func<Item, bool>>();
             var result = new EntityListResult<ReadItemDTO>();
@@ -31,6 +31,7 @@ namespace ComeYaAPI.Repositories
             if (!string.IsNullOrEmpty(type)) filters.Add(x => x.Food.FoodType.Description == type);
             if (price > 0) filters.Add(x => x.Price <= price);
             if (combo != 2) filters.Add(x=> x.Combo == combo);
+            if (marketingImg == 1) filters.Add(x => x.MarketingImg1 != null && x.MarketingImg1 != "No disponible" && x.MarketingImg1 != "Pendiente");
             if (restaurant != 0) filters.Add(x => x.Restaurant.Id == restaurant);
             if(!string.IsNullOrEmpty(category)) filters.Add(x=> x.Food.CategoryType.Description==category); 
             
@@ -44,7 +45,7 @@ namespace ComeYaAPI.Repositories
             
             var filteredItems = Filter(items,filters);
             if (rand != 0) filteredItems = GetAllRandom(filteredItems);
-            var pagedFilteredRecords = Paginate(filteredItems,page,4M);
+            var pagedFilteredRecords = Paginate(filteredItems,page,pageSize);
 
             var itemsDTOList = pagedFilteredRecords.Select(x => new ReadItemDTO
             {

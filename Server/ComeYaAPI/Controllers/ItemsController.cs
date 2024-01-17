@@ -36,10 +36,10 @@ namespace ComeYaAPI.Controllers
         // Metodo Get para mostrar todos los items
         [HttpGet("AllItems")]
         
-        public async Task<ActionResult<IEnumerable<ReadItemDTO>>> GetAllItems(string? type, string? category,decimal price= 0M, int page=0, ulong combo=2, int restaurant=0, int rand =0 )
+        public async Task<ActionResult<IEnumerable<ReadItemDTO>>> GetAllItems(string? type, string? category,decimal price= 0M, int page=0, ulong combo=2, int restaurant=0, int rand =0, decimal pageSize = 0M, int marketinImg=0 )
         {
            
-            var items = await _unitOfWork.Items.GetAllItems(type,category,price,page,combo,restaurant,rand);
+            var items = await _unitOfWork.Items.GetAllItems(type,category,price,page,combo,restaurant,rand,pageSize, marketinImg);
             //foreach (var item in items.Entity)
             //{
             //    var indexResponse = await _elasticClient.CreateDocumentAsync(item);
