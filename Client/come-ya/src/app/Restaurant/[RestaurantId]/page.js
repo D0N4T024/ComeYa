@@ -1,6 +1,7 @@
 "use client"
+import LoadingPage from '@/app/loading';
 import * as React from 'react';
-import { useState} from 'react'
+import { useState, useEffect} from 'react'
 import styles from './RestaurantName.module.css'
 import { Image, Heading, Text, Box, Card, Badge } from '@chakra-ui/react'
 import PropTypes from 'prop-types';
@@ -15,6 +16,7 @@ import WindowDimensions from '../../../components/WindowDimensions/WindowDimensi
 import stylesModal from '../../../components/OpenModal/OpenModal.module.css'
 import ProductView from '../../../components/ProductView/ProductView';
 import { useSearchParams } from 'next/navigation';
+import Apiservice from '@/Apiservice';
 
 
 let theme = createTheme({
@@ -120,7 +122,36 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
 }));
 
 export default function RestaurantMenu({params}) {
+  const [restaurant, setData] = useState();
+  const [restItems, setItems] = useState([]);
+  const [category, setCategory] = useState("");
+  const [food, setFood] = useState("");
+
+  var parameters ={restaurant: parseInt(params.RestaurantId), category:null,food:null};
+  //console.log(params);
+    useEffect(() => {
+      //console.log(params)
+      const fetchData = async () => {
+        try {
+          // Hacer la solicitud GET o POST según sea necesario
+          const response = await Apiservice.get(`Restaurants/${params.RestaurantId}`);
+          
+          setData(response);
+          const response2 = await Apiservice.get(`Items/AllItems`,parameters);
+          //sconsole.log(response2)
+          //console.log('Respuesta:', response);  
+          setItems(response2)
+        
+          // Puedes hacer más acciones según tus necesidades
+         ;
+        } catch (error) {
+          console.error('Error al obtener datos:', error);
+         // console.error("El error es",error);
+        }
+      };
   
+      fetchData();
+    }, [params.RestaurantId,parameters]);
 
   const openModal = (item) => {
     setProductInfo(item);
@@ -445,7 +476,7 @@ export default function RestaurantMenu({params}) {
   ];
 
 
-  const restaurant = restaurantes.find(item => item.Id == params.RestaurantName);
+  //const restaurant = restaurantes.find(item => item.Id == params.RestaurantId);
 
   const [sliderValue, setSliderValue] = useState(100)
 
@@ -473,24 +504,27 @@ export default function RestaurantMenu({params}) {
   const [productInfo, setProductInfo] = useState(info);
 
   const windowDimensions = WindowDimensions();
-
+  if (!restaurant) {
+    // Mientras se carga la data, puedes mostrar un indicador de carga o cualquier otra cosa
+    return <LoadingPage/>;
+  }
   return(
     <div className={styles.mainConteiner}>
       <Modal isOpen={isModalOpen} onClose={closeModal} />
           <Image 
-            src={restaurant.Background}
+            src={restaurant.background}
             width='100vw'
-            height={200}
+            height={400}
             objectFit='cover'
             fallbackSrc={`https://via.placeholder.com/${windowDimensions.width}x200`}
           />
           <div className={styles.tittle}>
             {restaurant ? (
               <>
-                <Heading justifyContent={"flex-start"}>{restaurant.Name}</Heading>
+                <Heading justifyContent={"flex-start"}>{restaurant.name}</Heading>
                 <Box display='flex' flexDirection='row' alignItems='center'>
                   <StarRateRounded sx={{ color: "#ffc107" }} />
-                  <Text py='2'>{restaurant.Rating}</Text>
+                  <Text py='2'>{restaurant.rating}</Text>
                 </Box> 
               </>
             ):null}
@@ -519,50 +553,74 @@ export default function RestaurantMenu({params}) {
                       />
                     </ThemeProvider>
                   </div>
-                <Heading as='h4' size='md'>Tipo</Heading>
+                <Heading as='h4' size='md'>Categorias</Heading>
                 <ThemeProvider theme={theme}>
+                                    {/*Aqui van las categorias de comida*/}
+
                   <FormControlLabel 
                     control={<Checkbox  
-                      defaultChecked
+                      
                       sx={{
                       color: '#D81B60',
                       '&.Mui-checked': {
                         color: '#C62828',
                       },
-                    }}/>} label="Vegetariana"/>
+                    }}/>} label="Cafe"/>
+                    <FormControlLabel 
+                    control={<Checkbox  
+                      
+                      sx={{
+                      color: '#D81B60',
+                      '&.Mui-checked': {
+                        color: '#C62828',
+                      },
+                    }}/>} label="Refresco"/>
+                    <FormControlLabel 
+                    control={<Checkbox  
+                      
+                      sx={{
+                      color: '#D81B60',
+                      '&.Mui-checked': {
+                        color: '#C62828',
+                      },
+                    }}/>} label="Postre"/>
                   <FormControlLabel 
                   control={<Checkbox  
-                    defaultChecked
+                    
                     sx={{
                     color: '#D81B60',
                     '&.Mui-checked': {
                       color: '#C62828',
                     },
                   }}/>} label="Vegana"/>
+                  </ThemeProvider>
+                  {/*Aqui van los tipos de comida*/}
+                  <Heading as='h4' size='md'>Tipos</Heading>
+                  <ThemeProvider theme={theme}>
                   <FormControlLabel 
                   control={<Checkbox  
-                    defaultChecked
+                    
                     sx={{
                     color: '#D81B60',
                     '&.Mui-checked': {
                       color: '#C62828',
                     },
-                  }}/>} label="Bebida"/>
+                  }}/>} label="Hamburguesa"/>
                   <FormControlLabel 
                   control={<Checkbox 
-                    defaultChecked
+                    
                     sx={{
                     color: '#D81B60',
                     '&.Mui-checked': {
                       color: '#C62828',
                     },
-                  }}/>} label="Marisco"/>
+                  }}/>} label="Nuggets"/>
                 </ThemeProvider>
                 
                   
               </div>
               <div className={styles.menu}>
-                  {items.map((item, index) => {
+                  {restItems.map((item, index) => {
                     return(
                       <div key={index} onClick={() => openModal(item)}>
                         <Card 
@@ -574,11 +632,9 @@ export default function RestaurantMenu({params}) {
                             boxShadow: 'lg', // Aumenta la sombra en el hover>
                           }}
                         >
-                          <Image 
-                            src={item.image} 
-                            alt={item.food} 
-                            objectFit='cover'
-                          />
+                          <Box height={60}>
+                      <Image src={item.image} alt={item.name} objectFit='contain' height="100%" width="100%"/>
+                      </Box>
                           <Box p='4'>
                             <Box display='flex' alignItems='center'>
                                 <Badge borderRadius='full' px='2' mr='2' colorScheme='teal'>

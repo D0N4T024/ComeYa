@@ -17,9 +17,9 @@ namespace ComeYaAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllRestaurants(string? q, int page = 0, int rating = 0)
+        public async Task<ActionResult> GetAllRestaurants(string? q, int page = 0, int rating = 0, decimal pageSize =0M)
         {
-            var restaurants = await  _unitOfWork.Restaurants.GetAllRestaurants(q,page,rating);
+            var restaurants = await  _unitOfWork.Restaurants.GetAllRestaurants(q,page,rating,pageSize);
             _unitOfWork.Dispose();
 
             return Ok(restaurants.Entity);
