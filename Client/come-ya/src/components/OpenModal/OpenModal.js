@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react';
 import { Button } from "@mui/material";
+import { Heading, Box, ChakraProvider } from '@chakra-ui/react';
 import SignUpForm from '../SignUpForm/SignUpForm'
 import SignInForm from '../SignInForm/SignInForm'
 import styles from '../OpenModal/OpenModal.module.css'
@@ -32,9 +33,23 @@ const OpenModal = (props) => {
             <div className={styles.modal}>
               <button><CloseRoundedIcon onClick={onClose}/></button>
               { props.whatButton === "SignIn" ? (
-                <SignInForm onClose={onClose} />
+                <>
+                  <Box display='flex' justifyContent='center'>
+                    <ChakraProvider>
+                      <Heading as='h3' size='lg'>Iniciar Sesión</Heading>
+                    </ChakraProvider>
+                  </Box>
+                  <SignInForm onClose={onClose} />
+                </>
               ):(
-                <SignUpForm onClose={onClose} />
+                <>
+                <Box display='flex' justifyContent='center'>
+                  <ChakraProvider>
+                    <Heading as='h3' size='lg'>Registrarse</Heading>
+                  </ChakraProvider>
+                </Box>
+                  <SignUpForm onClose={onClose} />
+                </>
               )}
             </div>
           </div>
