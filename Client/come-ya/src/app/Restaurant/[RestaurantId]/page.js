@@ -1,6 +1,5 @@
 "use client"
 import LoadingPage from '@/app/loading';
-import * as React from 'react';
 import { useState, useEffect} from 'react'
 import styles from './RestaurantName.module.css'
 import { Image, Heading, Text, Box, Card, Badge } from '@chakra-ui/react'
@@ -122,12 +121,32 @@ const IOSSlider = styled(Slider)(({ theme }) => ({
 }));
 
 export default function RestaurantMenu({params}) {
+
+  const defaultFilters = {
+    sliderValue: 100,
+    category: {
+      cafe: false,
+      refresco: false,
+      postre: false,
+      vegana: false,
+    },
+    food: {
+      nuggets: false,
+      hamburguesa: false,
+    },
+  };
+  
   const [restaurant, setData] = useState();
   const [restItems, setItems] = useState([]);
-  const [category, setCategory] = useState("");
-  const [food, setFood] = useState("");
+  const [sliderValue, setSliderValue] = useState(defaultFilters.sliderValue);
+  const [category, setCategory] = useState(defaultFilters.category);
+  const [food, setFood] = useState(defaultFilters.food);
+  const [parameters, setParameters] = useState({
+    restaurant: parseInt(params.RestaurantId),
+    category:"",
+    food: ""
+  })
 
-  var parameters ={restaurant: parseInt(params.RestaurantId), category:null,food:null};
   //console.log(params);
     useEffect(() => {
       //console.log(params)
@@ -184,6 +203,30 @@ export default function RestaurantMenu({params}) {
         )}
       </>
     );
+  };
+
+  const handlePriceChange = (event, newValue) => {
+    setSliderValue(newValue); // Actualiza el estado del slider
+  };
+
+  const handleCategoryChange = (categoryName) => {
+    setCategory((prevCategory) => ({
+      ...prevCategory,
+      [categoryName]: !prevCategory[categoryName],
+    }));
+  };
+
+  const handleFoodChange = (foodName) => {
+    setFood((prevFood) => ({
+      ...prevFood,
+      [foodName]: !prevFood[foodName],
+    }));
+  };
+
+  const resetFilters = () => {
+    setSliderValue(defaultFilters.sliderValue);
+    setCategory(defaultFilters.category);
+    setFood(defaultFilters.food);
   };
 
 
@@ -478,8 +521,6 @@ export default function RestaurantMenu({params}) {
 
   //const restaurant = restaurantes.find(item => item.Id == params.RestaurantId);
 
-  const [sliderValue, setSliderValue] = useState(100)
-
   const searchParams = useSearchParams();
   const id = searchParams.get('item');
   let itemId;
@@ -535,7 +576,7 @@ export default function RestaurantMenu({params}) {
                   <ThemeProvider theme={theme}>
                     {/*Boton de reestablecer filtros*/}
                     <Tooltip title="Reestablecer" placement='top' arrow>
-                      <button>
+                      <button onClick={resetFilters}>
                         <Replay sx={{ color: '#C62828' }} />
                       </button>
                     </Tooltip>
@@ -547,19 +588,23 @@ export default function RestaurantMenu({params}) {
                       <IOSSlider
                         aria-label="ios slider"
                         defaultValue={100}
+                        value={sliderValue}
+                        onChange={handlePriceChange}
                         step={33.4}
                         marks={marks}
                         valueLabelDisplay="off"
                       />
+                      {console.log(sliderValue)}
                     </ThemeProvider>
                   </div>
                 <Heading as='h4' size='md'>Categorias</Heading>
                 <ThemeProvider theme={theme}>
-                                    {/*Aqui van las categorias de comida*/}
+                  {/*Aqui van las categorias de comida*/}
 
                   <FormControlLabel 
                     control={<Checkbox  
-                      
+                      onChange={() => handleCategoryChange('cafe')}
+                      checked={category.cafe}
                       sx={{
                       color: '#D81B60',
                       '&.Mui-checked': {
@@ -568,7 +613,8 @@ export default function RestaurantMenu({params}) {
                     }}/>} label="Cafe"/>
                     <FormControlLabel 
                     control={<Checkbox  
-                      
+                      onChange={() => handleCategoryChange('refresco')}
+                      checked={category.refresco}
                       sx={{
                       color: '#D81B60',
                       '&.Mui-checked': {
@@ -577,7 +623,8 @@ export default function RestaurantMenu({params}) {
                     }}/>} label="Refresco"/>
                     <FormControlLabel 
                     control={<Checkbox  
-                      
+                      onChange={() => handleCategoryChange('postre')}
+                      checked={category.postre}
                       sx={{
                       color: '#D81B60',
                       '&.Mui-checked': {
@@ -586,7 +633,8 @@ export default function RestaurantMenu({params}) {
                     }}/>} label="Postre"/>
                   <FormControlLabel 
                   control={<Checkbox  
-                    
+                    onChange={() => handleCategoryChange('vegana')}
+                    checked={category.vegana}
                     sx={{
                     color: '#D81B60',
                     '&.Mui-checked': {
@@ -599,7 +647,8 @@ export default function RestaurantMenu({params}) {
                   <ThemeProvider theme={theme}>
                   <FormControlLabel 
                   control={<Checkbox  
-                    
+                    onChange={() => handleFoodChange('hamburguesa')}
+                    checked={food.hamburguesa}
                     sx={{
                     color: '#D81B60',
                     '&.Mui-checked': {
@@ -608,7 +657,8 @@ export default function RestaurantMenu({params}) {
                   }}/>} label="Hamburguesa"/>
                   <FormControlLabel 
                   control={<Checkbox 
-                    
+                    onChange={() => handleFoodChange('nuggets')}
+                    checked={food.nuggets}
                     sx={{
                     color: '#D81B60',
                     '&.Mui-checked': {
@@ -616,8 +666,6 @@ export default function RestaurantMenu({params}) {
                     },
                   }}/>} label="Nuggets"/>
                 </ThemeProvider>
-                
-                  
               </div>
               <div className={styles.menu}>
                   {restItems.map((item, index) => {

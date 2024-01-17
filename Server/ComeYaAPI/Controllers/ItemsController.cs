@@ -40,14 +40,14 @@ namespace ComeYaAPI.Controllers
         {
            
             var items = await _unitOfWork.Items.GetAllItems(type,category,price,page,combo,restaurant,rand);
-            foreach (var item in items.Entity)
-            {
-                var indexResponse = await _elasticClient.CreateDocumentAsync(item);
-                if (!indexResponse.IsValid)
-                {
-                    return StatusCode(500, "Error al indexar los elementos en Elasticsearch.")
-                }
-            }
+            //foreach (var item in items.Entity)
+            //{
+            //    var indexResponse = await _elasticClient.CreateDocumentAsync(item);
+            //    if (!indexResponse.IsValid)
+            //    {
+            //        return StatusCode(500, "Error al indexar los elementos en Elasticsearch.");
+            //    }
+            //}
 
             _unitOfWork.Dispose();
 
