@@ -1,24 +1,43 @@
+"use client"
 import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import styles from './SignUpForm.module.css'
 import { Button } from '@mui/material';
 import { useToast } from '@chakra-ui/react'
+import Apiservice from '@/Apiservice';
 
 const SignUpForm = ({ onClose }) => {
 
   const[ChangeOnSubmit, setChangeOnSubmit] = useState(false);
   const toast = useToast()
 
+  const Register = async (email,password,passwordConfirmed,name,lname,phone,genre) => {
+    let Phone = phone.toString()
+    let userDTO= {email,password,passwordConfirmed,name,lname,Phone,genre}
+
+    try {
+      // Hacer la solicitud POST para el registro
+      const response = await Apiservice.post('Users/Register', userDTO);
+      
+      return response; // Devolver la respuesta para manejarla fuera de la función
+    } catch (error) {
+      console.log(error)
+       // Propagar el error para que se pueda manejar en onSubmit
+    }
+	}
+ 
+
+  
   return (
     <Formik
       initialValues={{
-        name: '',
-        lastName: '',
-        phone: '',
-        gender: '',
-        email: '',
-        password: '',
-        confirmingPassword: '',
+        name: "",
+        lname: "",
+        phone: "",
+        genre: "",
+        email: "",
+        password: "",
+        passwordConfirmed: "",
 
       }}
       validate={(values) => {
@@ -31,11 +50,11 @@ const SignUpForm = ({ onClose }) => {
           error.name = 'El nombre solo puede contener letras y espacios!'
         }
 
-        //LastName Validation
-        if(!values.lastName){
-          error.lastName = 'Por favor ingresa un apellido'
-        } else if(!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(values.lastName)){
-          error.lastName = 'El apellido solo puede contener letras y espacios!'
+        //lname Validation
+        if(!values.lname){
+          error.lname = 'Por favor ingresa un apellido'
+        } else if(!/^[a-zA-ZÀ-ÿ\s]{1,40}$/.test(values.lname)){
+          error.lname = 'El apellido solo puede contener letras y espacios!'
         }
 
         //Phone Validation
@@ -46,8 +65,8 @@ const SignUpForm = ({ onClose }) => {
         }
 
         //Phone Validation
-        if(!values.gender){
-          error.gender = 'Por favor seleccionar un opción'
+        if(!values.genre){
+          error.genre = 'Por favor seleccionar un opción'
         }
 
         //Email Validation
@@ -64,7 +83,7 @@ const SignUpForm = ({ onClose }) => {
         !/(?=.*[a-z])/.test(values.password) || // al menos una letra minúscula
         !/(?=.*[A-Z])/.test(values.password) || // al menos una letra mayúscula
         !/(?=.*\d)/.test(values.password) ||    // al menos un número
-        !/(?=.*[@$!%*?&])/.test(values.password) // al menos un símbolo
+        !/(?=.[@$!%?&])/.test(values.password) // al menos un símbolo
         ) {
           error.password = 'La contraseña debe contener al menos una letra mayúscula, una letra minúscula, un número y un símbolo.';
 
@@ -72,29 +91,33 @@ const SignUpForm = ({ onClose }) => {
           error.password = 'La contraseña debe tener al menos 6 caracteres.';
         }
 
-        //confirmingPassword Validation
-        if(!values.confirmingPassword){
-          error.confirmingPassword = 'Por favor confirme la contraseña'
-        } else if (values.confirmingPassword !== values.password) {
-          error.confirmingPassword = 'Las contraseñas no coinciden.';
+        //passwordConfirmed Validation
+        if(!values.passwordConfirmed){
+          error.passwordConfirmed = 'Por favor confirme la contraseña'
+        } else if (values.passwordConfirmed !== values.password) {
+          error.passwordConfirmed = 'Las contraseñas no coinciden.';
         }
 
         return error;
       }}
 
-      onSubmit={({resetForm}) => {
-        /*resetForm();*/ //Resetear formulario
-        setChangeOnSubmit(true);
-        setTimeout(() => setChangeOnSubmit(false), 5000);
+      onSubmit={(values, { setSubmitting }) => {
+        
+         let message = Register(values.email,values.password,values.passwordConfirmed,values.name,values.lname,values.phone,values.genre)
+          
+          setSubmitting(false);
+          setChangeOnSubmit(true);
+          setTimeout(() => setChangeOnSubmit(false), 5000);
+        
         toast({
-          title: 'Account created.',
-          description: "We've created your account for you.",
+          title: 'Mensaje.',
+          description: message,
           status: 'success',
           variant: "subtle",
           position: "top-right",
           duration: 8000,
         })
-        onClose();
+       // onClose();
       }}
     >   
       {( {errors } ) => (
@@ -112,15 +135,15 @@ const SignUpForm = ({ onClose }) => {
               )}/>
           </div>
           <div>
-            <label htmlFor='lastName'>Apellido:</label>
+            <label htmlFor='lname'>Apellido:</label>
             <Field 
               type="text" 
-              id='lastName' 
-              name="lastName" 
+              id='lname' 
+              name="lname" 
               placeholder='Perez'
               />
-              <ErrorMessage name='lastName' component={() => (
-                <div className={styles.error}>{errors.lastName}</div>
+              <ErrorMessage name='lname' component={() => (
+                <div className={styles.error}>{errors.lname}</div>
               )}/>
           </div>
           <div>
@@ -135,30 +158,30 @@ const SignUpForm = ({ onClose }) => {
               )}/>
           </div>
           <div>
-            <label htmlFor='gender'>Cuál es tu género?</label>
+            <label htmlFor='genre'>Cuál es tu género?</label>
               <Field 
                 type="radio" 
-                name="gender" 
-                value="male" 
+                name="genre" 
+                value="Masculino" 
                 label='Hombre'/>
                 Masculino<br />
               <Field 
                 type="radio" 
-                name="gender" 
-                value="female" />
+                name="genre" 
+                value="Femenino" />
               Femenino<br />
               <Field 
                 type="radio" 
-                name="gender" 
-                value="other" />
+                name="genre" 
+                value="Otro" />
                 Otro
-              {/*<Field as="select" name="gender">
+              {/*<Field as="select" name="genre">
              <option value="male">Hombre</option>
              <option value="female">Mujer</option>
              <option value="other">Otro</option>
               </Field>*/}
-              <ErrorMessage name='gender' component={() => (
-                <div className={styles.error}>{errors.gender}</div>
+              <ErrorMessage name='genre' component={() => (
+                <div className={styles.error}>{errors.genre}</div>
               )}/>
           </div>
           <div>
@@ -185,14 +208,14 @@ const SignUpForm = ({ onClose }) => {
               )}/>
           </div>
           <div>
-            <label htmlFor='confirmingPassword'>Confirmar contraseña:</label>
+            <label htmlFor='passwordConfirmed'>Confirmar contraseña:</label>
             <Field 
               type="password" 
-              id='confirmingPassword' 
-              name="confirmingPassword" 
+              id='passwordConfirmed' 
+              name="passwordConfirmed" 
               />
-              <ErrorMessage name='confirmingPassword' component={() => (
-                <div className={styles.error}>{errors.confirmingPassword}</div>
+              <ErrorMessage name='passwordConfirmed' component={() => (
+                <div className={styles.error}>{errors.passwordConfirmed}</div>
               )}/>
           </div>
           <Button type="submit">Enviar</Button>

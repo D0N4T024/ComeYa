@@ -2,11 +2,25 @@ import { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import styles from './SignInForm.module.css'
 import { Button } from '@mui/material';
+import Apiservice from '@/Apiservice';
+import { LinkOff } from '@mui/icons-material';
 
 const SignUp = ({ onClose }) => {
 
   const[ChangeOnSubmit, setChangeOnSubmit] = useState(false);
-
+  const Login = async (email,password) => {
+    try {
+      // Hacer la solicitud POST para el registro
+      const response = await Apiservice.post('Users/Auth/SignIn', {email,password});
+      localStorage.setItem("token", response.token)
+      console.log(response);
+    
+    } catch (error) {
+      console.error( error);
+      // Manejar errores de registro aquí
+      throw error; // Propagar el error para que se pueda manejar en onSubmit
+    }
+	}
   return (
     <Formik
 
@@ -43,7 +57,8 @@ const SignUp = ({ onClose }) => {
         return error;
       }}
 
-      onSubmit={({resetForm}) => {
+      onSubmit={(values) => {
+        Login(values.email,values.password)
         /*resetForm();*/ //Resetear formulario
         setChangeOnSubmit(true);
         setTimeout(() => setChangeOnSubmit(false), 5000);

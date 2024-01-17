@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react';
+import Apiservice from '@/Apiservice';
 import styles from "./Search.module.css"
 import { useSearchParams } from "next/navigation"
 import { Card, CardBody, Heading, Text, Image, Stack, Box, Badge } from '@chakra-ui/react'
