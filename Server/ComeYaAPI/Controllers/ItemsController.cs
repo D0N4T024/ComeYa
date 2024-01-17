@@ -46,7 +46,6 @@ namespace ComeYaAPI.Controllers
             //    if (!indexResponse.IsValid)
             //    {
             //        return StatusCode(500, "Error al indexar los elementos en Elasticsearch.");
-
             //    }
             //}
 
