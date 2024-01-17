@@ -139,24 +139,16 @@ export default function RestaurantMenu({params}) {
   
   const [restaurant, setData] = useState();
   const [restItems, setItems] = useState([]);
-<<<<<<< HEAD
-  const [category, setCategory] = useState("");
-  const [food, setFood] = useState("");
-=======
   const [sliderValue, setSliderValue] = useState(defaultFilters.sliderValue);
   const [category, setCategory] = useState(defaultFilters.category);
   const [food, setFood] = useState(defaultFilters.food);
->>>>>>> 577a5e9305ba80b67ad632fa5c29489f65133451
   const [parameters, setParameters] = useState({
     restaurant: parseInt(params.RestaurantId),
     category:"",
     food: ""
   })
 
-<<<<<<< HEAD
- 
-=======
->>>>>>> 577a5e9305ba80b67ad632fa5c29489f65133451
+
   //console.log(params);
     useEffect(() => {
       //console.log(params)
