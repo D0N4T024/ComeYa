@@ -26,7 +26,7 @@ namespace ComeYaAPI.Repositories
 
         }
 
-        public async Task<EntityListResult<ReadRestaurantDTO>> GetAllRestaurants(string? q, int page = 0, int rating = 0)
+        public async Task<EntityListResult<ReadRestaurantDTO>> GetAllRestaurants(string? q, int page = 0, int rating = 0, decimal pageSize = 0M)
         {
             var filters = new List<Func<Restaurant, bool>>();
             var result = new EntityListResult<ReadRestaurantDTO>();
@@ -52,7 +52,7 @@ namespace ComeYaAPI.Repositories
             var restaurants = await GetAllAsync();
             var restaurantsQuery = restaurants.AsQueryable();
             var filteredRecords = Filter(restaurantsQuery, filters);
-            var pagedFilteredRecords = Paginate(filteredRecords, page, 4M); ;
+            var pagedFilteredRecords = Paginate(filteredRecords, page, pageSize); 
             var restaurantsDTO = _mapper.Map<IEnumerable<ReadRestaurantDTO>>(pagedFilteredRecords);
          
             result.Entity = restaurantsDTO;

@@ -39,7 +39,7 @@ const ProductView = ({ onClose, ...props }) => {
             src={props.image}
             width={400}
             height={400}
-            objectFit='cover'
+            objectFit='contain'
           />
         </Box>
           <div>

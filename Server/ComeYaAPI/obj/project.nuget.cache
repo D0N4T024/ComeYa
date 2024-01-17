@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HapIYvzOK3hDInL99k3x8U8toFt+pmO/8uoN5MinCFmJ/2qatBPKifZtaujkat06oYvMq/qw1PqTVF6ic0181w==",
+  "dgSpecHash": "3bNf7oEqvavBC/YXTMpmeHS6uVVOGGt9gQmbd1n2in2MytS2RbI9WPQ+QpjWgVNFhe1p3y6iuagSquqCwpLJKA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\mario\\Desktop\\Proyectos\\ComeYaAPI\\ComeYaAPI\\ComeYaAPI.csproj",
+  "projectFilePath": "C:\\Users\\mario\\Documents\\GitHub\\ComeYa\\Server\\ComeYaAPI\\ComeYaAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mario\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\mario\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",

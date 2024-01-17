@@ -7,7 +7,7 @@ namespace ComeYaAPI.Interfaces
 {
     public interface IRestaurantRepository:IRepository<Restaurant>
     {
-        Task<EntityListResult<ReadRestaurantDTO>> GetAllRestaurants(string? q, int page= 0, int rating = 0);
+        Task<EntityListResult<ReadRestaurantDTO>> GetAllRestaurants(string? q, int page= 0, int rating = 0, decimal pageSize =0 );
         Task<EntityResult<ReadRestaurantDTO>> GetById(int id);
         Task<EntityResult<ReadMenuDTO>> GetMenu(int id);
     }

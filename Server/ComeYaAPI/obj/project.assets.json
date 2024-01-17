@@ -12658,11 +12658,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\mario\\Desktop\\Proyectos\\ComeYaAPI\\ComeYaAPI\\ComeYaAPI.csproj",
+      "projectUniqueName": "C:\\Users\\mario\\Documents\\GitHub\\ComeYa\\Server\\ComeYaAPI\\ComeYaAPI.csproj",
       "projectName": "ComeYaAPI",
-      "projectPath": "C:\\Users\\mario\\Desktop\\Proyectos\\ComeYaAPI\\ComeYaAPI\\ComeYaAPI.csproj",
+      "projectPath": "C:\\Users\\mario\\Documents\\GitHub\\ComeYa\\Server\\ComeYaAPI\\ComeYaAPI.csproj",
       "packagesPath": "C:\\Users\\mario\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\mario\\Desktop\\Proyectos\\ComeYaAPI\\ComeYaAPI\\obj\\",
+      "outputPath": "C:\\Users\\mario\\Documents\\GitHub\\ComeYa\\Server\\ComeYaAPI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\mario\\AppData\\Roaming\\NuGet\\NuGet.Config",
