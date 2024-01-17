@@ -45,8 +45,7 @@ namespace ComeYaAPI.Controllers
                 var indexResponse = await _elasticClient.CreateDocumentAsync(item);
                 if (!indexResponse.IsValid)
                 {
-                    return StatusCode(500, "Error al indexar los elementos en Elasticsearch.");
-
+                    return StatusCode(500, "Error al indexar los elementos en Elasticsearch.")
                 }
             }
 
