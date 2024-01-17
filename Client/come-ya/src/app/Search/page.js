@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Apiservice from '@/Apiservice';
 import styles from "./Search.module.css"
 import { useSearchParams } from "next/navigation"
@@ -10,6 +10,31 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 
 export default function SearchedCategory(){
+  const searchParams = useSearchParams();
+  const search = searchParams.get('search');
+  const [page, setPage] = useState(1);
+  const [data,setData] = useState([])
+
+  useEffect(() => {
+    //console.log(params)
+    const fetchData = async () => {
+      try {
+        // Hacer la solicitud GET o POST según sea necesario
+        const response = await Apiservice.get(`Items/Search?termino=${search}&page=${page}&pageSize=8`);
+        console.log(response)
+        setData(response);
+        
+        
+       ;
+      } catch (error) {
+        //console.error('Error al obtener datos:', error);
+       // console.error("El error es",error);
+      }
+    };
+
+    fetchData();
+  }, [search, page]);
+  
   let theme = createTheme({
     palette: {
       primary: {
@@ -21,13 +46,12 @@ export default function SearchedCategory(){
     },
   });
 
-  const [page, setPage] = useState(1);
+  
   const handleChange = (event, value) => {
     setPage(value);
   };
 
-  const searchParams = useSearchParams();
-  const search = searchParams.get('search');
+  
   const result = [
     {
       id: 1,
@@ -260,10 +284,10 @@ export default function SearchedCategory(){
             <Heading>Resultados de buscar "{search}"</Heading>
         </div>
         <div className={styles.searchConteiner}>
-          {result.map((item, index) => {
+          {data.map((item, index) => {
             return(
               <div key={index}>
-                <Link href={`/Restaurant/${item.id}`}>
+                <Link href={`/Restaurant/${item.restaurantId}`}>
                   <Card
                     direction={{ base: 'column', sm: 'row' }}
                     overflow='hidden'
@@ -274,16 +298,16 @@ export default function SearchedCategory(){
                     }}
                   >
                     <Image
-                      objectFit='cover'
+                      objectFit='contain'
                       maxW={{ base: '100%', sm: '200px' }}
                       src={item.image}
-                      alt={`Imagen de ${item.Name}`}
+                      alt={`Imagen de ${item.name}`}
                     />
                     <Stack>
                       <CardBody>
                         <Box display='flex' justifyContent='space-between' alignItems='center'>
                           <Box>
-                            <Heading size='md'>{item.food}</Heading>
+                            <Heading size='md'>{item.name}</Heading>
                             <Text size='sm' as='i'>{item.restaurant}</Text>
 
                           </Box>

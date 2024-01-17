@@ -1,6 +1,7 @@
 ﻿using ComeYa.Interfaces;
 using ComeYaAPI.Context;
 using ComeYaAPI.Models.DTOs.ItemDTOs;
+using ComeYaAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MySqlX.XDevAPI;
@@ -14,9 +15,10 @@ namespace ComeYaAPI.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IElasticClient _elasticClient;
+        private readonly PaginationService _paginationService;
         private readonly IConfiguration _configuration;
         
-        public ItemsController(IUnitOfWork unitOfWork, IConfiguration configuration)
+        public ItemsController(IUnitOfWork unitOfWork, IConfiguration configuration, PaginationService paginationService)
         {
             _configuration = configuration;
 
@@ -28,7 +30,7 @@ namespace ComeYaAPI.Controllers
 
             var client = new ElasticClient(settings);
             
-            
+            _paginationService = paginationService;
             _unitOfWork = unitOfWork;
             _elasticClient =client;
         }
@@ -64,7 +66,7 @@ namespace ComeYaAPI.Controllers
         }
 
         [HttpGet("Search")]
-        public  ActionResult<IEnumerable<Item>> Buscar(string termino)
+        public  ActionResult<IEnumerable<Item>> Buscar(string termino, int page=1, decimal pageSize= 8M)
         {
     
 
@@ -115,14 +117,15 @@ namespace ComeYaAPI.Controllers
             
             if (response.Documents.Count != 0)
             {
-                var resultados = response.Documents;
+                var resultados = _paginationService.Paginate(response.Documents,page,pageSize);
+                
                 return Ok(resultados.ToList());
             }
             
 
             if (result.Documents.Count != 0)
             {
-                var resultados = result.Documents;
+                var resultados = _paginationService.Paginate(result.Documents, page, pageSize);
                 return Ok(resultados.ToList());
             }
             else

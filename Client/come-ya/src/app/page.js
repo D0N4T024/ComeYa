@@ -65,23 +65,18 @@ export default function Home() {
                   objects={items}
                 />
               </div>
-          </div>*
+          </div>
 
           <div className={styles.category}>
               <div className={styles.categoryBottomSide}>
                 <Carousel
                   titulo={'Combos especiales'}
+                  objects={combos}
                 />
               </div>
           </div>
 
-          <div className={styles.category}>
-              <div className={styles.categoryBottomSide}>
-                <Carousel
-                  titulo={'Bebidas'}
-                />
-              </div>
-          </div>
+          
         </div>
       </div>
     </main>
