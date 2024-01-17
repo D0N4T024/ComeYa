@@ -148,7 +148,6 @@ export default function RestaurantMenu({params}) {
     food: ""
   })
 
-
   //console.log(params);
     useEffect(() => {
       //console.log(params)
