@@ -4,7 +4,7 @@ import styles from './NavBar.module.css'
 import Link from 'next/link'
 import * as React from 'react';
 import Box from '@mui/system/Box';
-import { Stack, TextField, IconButton, Badge, Tooltip } from '@mui/material';
+import { Stack, TextField, IconButton, Badge, Tooltip, Button, Menu, MenuItem } from '@mui/material';
 import OpenModal from '../OpenModal/OpenModal';
 import { ChakraProvider, Heading } from '@chakra-ui/react'
 import Paper from '@mui/material/Paper';
@@ -13,7 +13,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
-import CloseRounded from '@mui/icons-material/CloseRounded'
+import CloseRounded from '@mui/icons-material/CloseRounded';
+import { MoreVert } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 
 function notificationsLabel(count) {
@@ -72,6 +73,17 @@ export default function NavBar(){
   const [cartItemsCounter, setCartItemsCounter] = useState(0);
 
   const [searchValue, setSearchValue] = useState('');
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleLogOut = () => {
+    setAnchorEl(null);
+  };
+
+
 
   useEffect (() => {
     setCartItemsCounter(cart.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0))
@@ -148,6 +160,33 @@ export default function NavBar(){
           <OpenModal 
           whatButton="SignUp"
           />
+          <div>
+            <IconButton 
+              id="basic-button"
+              aria-controls={open ? 'basic-menu' : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleClick}
+      
+            >
+              <MoreVert color='error' />
+            </IconButton>
+            <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={() => setAnchorEl(null)}
+              MenuListProps={{
+                'aria-labelledby': 'basic-button',
+              }}
+            >
+              <Link href='/Account/OrdersHistory'>
+                <MenuItem onClick={() => setAnchorEl(null)}>Historial de ordenes</MenuItem>
+              </Link>
+              <MenuItem onClick={handleLogOut}>Cerrar Sesión</MenuItem>
+            </Menu>
+          </div>
+          
         </Stack>
       </Box>
     </nav>
