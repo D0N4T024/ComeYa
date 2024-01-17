@@ -75,6 +75,7 @@ namespace ComeYaAPI.Repositories
                         Name = orderItem.Item.Name,
                         Quantity = orderItem.Quantity,
                         Price = orderItem.Item.Price,
+                        Image = orderItem.Item.Image,
                         Amount = Math.Round(orderItem.Item.Price * orderItem.Quantity,2),
                         Taxes = Math.Round(orderItem.Item.Price * orderItem.Quantity*0.18M,2)
                     };

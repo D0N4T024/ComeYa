@@ -1,6 +1,7 @@
 'use client'
 import styles from "./ShoppingCart.module.css"
 import { useState, useEffect } from 'react';
+import Apiservice from "@/Apiservice";
 import { Card, CardBody, Heading, Text, Box, Image, Button } from '@chakra-ui/react'
 import { FormControl, Select, MenuItem } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -8,39 +9,33 @@ import ProductionQuantityLimitsRoundedIcon from '@mui/icons-material/ProductionQ
 import Link from 'next/link'
 
 const ShoppingCart = () => {
-  const cart = [
-      {
-        "id": 43,
-        "name": "Rollito Playbe",
-        "description": null,
-        "price": 395,
-        "quantity": 3,
-        "amount": 1398.3,
-        "image": "https://images.unsplash.com/photo-1551782450-a2132b4ba21d"
-      },
-      {
-        "id": 45,
-        "name": "David Sakayama",
-        "description": null,
-        "price": 795,
-        "quantity": 4,
-        "amount": 3752.4,
-        "image": "https://imgur.com/FXd7EJm.png"
-      },
-      {
-        "id": 46,
-        "name": "Pokesemeimpolta",
-        "description": null,
-        "price": 475,
-        "quantity": 3,
-        "amount": 1681.5,
-        "image": "https://images.unsplash.com/photo-1551782450-a2132b4ba21d"
+  
+
+  const [cartState, setCartState] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await Apiservice.get(`Cart/CartItems?page=1`);
+        if (response && Array.isArray(response)) {
+          setCartState(response);
+        } else {
+          setCartState([]); // Asigna un array vacío si la respuesta no es un array
+        }
+      } catch (error) {
+        console.error('Error al obtener datos:', error);
+        // Manejar errores aquí si es necesario
       }
-  ]
+    };
 
-  const [cartState, setCartState] = useState(cart)
-  console.log(cartState)
+    fetchData();
+  }, []);
 
+  useEffect(() => {
+    // Este efecto se ejecutará cada vez que cartState cambie
+    console.log('Carrito actualizado:', cartState);
+  }, [cartState]);
+  
   let theme = createTheme({
     palette: {
       primary: {
@@ -97,7 +92,7 @@ const ShoppingCart = () => {
                   variant='elevated'
                 >
                   <Image
-                    objectFit='cover'
+                    objectFit='contain'
                     maxW={{ base: '100%', sm: '200px' }}
                     src={item.image}
                     alt={`Imagen de ${item.name}`}
