@@ -9,18 +9,27 @@ import Apiservice from '@/Apiservice';
 
 const ProductView = ({ onClose, ...props }) => {
   console.log(props)
-  const addItem = async (itemId, quantity) =>{
-    try {
-      
-      const response = await Apiservice.post('Cart/AddItem', {itemId,quantity});
-      console.log(response);
-      
-    } catch (error) {
-      console.error('Error al registrar usuario:', error);
-      
-      
-    }
+  const addItem = async (itemId, quantity, itemName) => {
+  try {
+    const response = await Apiservice.post('Cart/AddItem', { itemId, quantity });
+    toast({
+      title: `(${quantity}) ${itemName} añadidos al carrito`,
+      status: 'success',
+      variant: "subtle",
+      position: "top-right",
+      duration: 8000,
+    })
+  } catch (error) {
+    console.error('Error al registrar usuario:', error);
+    toast({
+      title: 'Error, Intentelo más tarde!',
+      status: 'error',
+      variant: "subtle",
+      position: "top-right",
+      duration: 8000,
+    })
   }
+};
   const toast = useToast()
   let theme = createTheme({
     palette: {
@@ -37,15 +46,7 @@ const ProductView = ({ onClose, ...props }) => {
       setQuantity(event.target.value);
   };
   const onSubmit = () => {
-    addItem(props.id,quantity)
-    toast({
-      title: 'Account created.',
-      description: "We've created your account for you.",
-      status: 'success',
-      variant: "subtle",
-      position: "top-right",
-      duration: 8000,
-    })
+    addItem(props.id, quantity, props.name)
     onClose();
   }
   if(!props){
