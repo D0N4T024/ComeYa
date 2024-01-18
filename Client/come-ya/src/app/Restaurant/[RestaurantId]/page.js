@@ -126,14 +126,14 @@ export default function RestaurantMenu({params}) {
   const defaultFilters = {
     sliderValue: 100,
     category: {
-      cafe: false,
-      refresco: false,
-      postre: false,
-      vegana: false,
+      cafe: "",
+      refresco: "",
+      postre: "",
+      vegana: "",
     },
     food: {
-      nuggets: false,
-      hamburguesa: false,
+      nuggets: "",
+      hamburguesa: "",
     },
   };
   
@@ -157,7 +157,7 @@ export default function RestaurantMenu({params}) {
           const response = await Apiservice.get(`Restaurants/${params.RestaurantId}`);
           
           setData(response);
-          const response2 = await Apiservice.get(`Items/AllItems`,parameters);
+          const response2 = await Apiservice.get(Items/AllItems,parameters);
           //sconsole.log(response2)
           //console.log('Respuesta:', response);  
           setItems(response2)
@@ -213,14 +213,14 @@ export default function RestaurantMenu({params}) {
   const handleCategoryChange = (categoryName) => {
     setCategory((prevCategory) => ({
       ...prevCategory,
-      [categoryName]: !prevCategory[categoryName],
+      [categoryName]: prevCategory[categoryName] === categoryName ? "" : categoryName,
     }));
   };
 
   const handleFoodChange = (foodName) => {
     setFood((prevFood) => ({
       ...prevFood,
-      [foodName]: !prevFood[foodName],
+      [foodName]: prevFood[foodName] === foodName ? "" : foodName,
     }));
   };
 
@@ -229,10 +229,6 @@ export default function RestaurantMenu({params}) {
     setCategory(defaultFilters.category);
     setFood(defaultFilters.food);
   };
-
-
- 
-
 
   //const restaurant = restaurantes.find(item => item.Id == params.RestaurantId);
 
@@ -290,7 +286,7 @@ export default function RestaurantMenu({params}) {
               <div className={styles.filter}>
                 <Box display={'flex'} justifyContent={'flex-end'}>
                   <ThemeProvider theme={theme}>
-                    {/*Boton de reestablecer filtros*/}
+                    {/Boton de reestablecer filtros/}
                     <Tooltip title="Reestablecer" placement='top' arrow>
                       <button onClick={resetFilters}>
                         <Replay sx={{ color: '#C62828' }} />
@@ -315,12 +311,12 @@ export default function RestaurantMenu({params}) {
                   </div>
                 <Heading as='h4' size='md'>Categorias</Heading>
                 <ThemeProvider theme={theme}>
-                  {/*Aqui van las categorias de comida*/}
+                  {/Aqui van las categorias de comida/}
 
                   <FormControlLabel 
                     control={<Checkbox  
                       onChange={() => handleCategoryChange('cafe')}
-                      checked={category.cafe}
+                      checked={category.cafe === 'cafe'}
                       sx={{
                       color: '#D81B60',
                       '&.Mui-checked': {
@@ -330,7 +326,7 @@ export default function RestaurantMenu({params}) {
                     <FormControlLabel 
                     control={<Checkbox  
                       onChange={() => handleCategoryChange('refresco')}
-                      checked={category.refresco}
+                      checked={category.refresco === 'refresco'}
                       sx={{
                       color: '#D81B60',
                       '&.Mui-checked': {
@@ -340,7 +336,7 @@ export default function RestaurantMenu({params}) {
                     <FormControlLabel 
                     control={<Checkbox  
                       onChange={() => handleCategoryChange('postre')}
-                      checked={category.postre}
+                      checked={category.postre === 'postre'}
                       sx={{
                       color: '#D81B60',
                       '&.Mui-checked': {
@@ -350,7 +346,7 @@ export default function RestaurantMenu({params}) {
                   <FormControlLabel 
                   control={<Checkbox  
                     onChange={() => handleCategoryChange('vegana')}
-                    checked={category.vegana}
+                    checked={category.vegana === 'vegana'}
                     sx={{
                     color: '#D81B60',
                     '&.Mui-checked': {
@@ -358,13 +354,13 @@ export default function RestaurantMenu({params}) {
                     },
                   }}/>} label="Vegana"/>
                   </ThemeProvider>
-                  {/*Aqui van los tipos de comida*/}
+                  {/Aqui van los tipos de comida/}
                   <Heading as='h4' size='md'>Tipos</Heading>
                   <ThemeProvider theme={theme}>
                   <FormControlLabel 
                   control={<Checkbox  
                     onChange={() => handleFoodChange('hamburguesa')}
-                    checked={food.hamburguesa}
+                    checked={food.hamburguesa === 'hamburguesa'}
                     sx={{
                     color: '#D81B60',
                     '&.Mui-checked': {
@@ -374,13 +370,15 @@ export default function RestaurantMenu({params}) {
                   <FormControlLabel 
                   control={<Checkbox 
                     onChange={() => handleFoodChange('nuggets')}
-                    checked={food.nuggets}
+                    checked={food.nuggets === 'nuggets'}
                     sx={{
                     color: '#D81B60',
                     '&.Mui-checked': {
                       color: '#C62828',
                     },
                   }}/>} label="Nuggets"/>
+                  {console.log('comida:', food)}
+                  {console.log('categoria:',category)}
                 </ThemeProvider>
               </div>
               <div className={styles.menu}>
