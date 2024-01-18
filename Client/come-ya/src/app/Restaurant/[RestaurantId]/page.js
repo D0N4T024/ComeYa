@@ -157,7 +157,7 @@ export default function RestaurantMenu({params}) {
           const response = await Apiservice.get(`Restaurants/${params.RestaurantId}`);
           
           setData(response);
-          const response2 = await Apiservice.get(Items/AllItems,parameters);
+          const response2 = await Apiservice.get(`Items/AllItems`,parameters);
           //sconsole.log(response2)
           //console.log('Respuesta:', response);  
           setItems(response2)
@@ -230,6 +230,10 @@ export default function RestaurantMenu({params}) {
     setFood(defaultFilters.food);
   };
 
+
+ 
+
+
   //const restaurant = restaurantes.find(item => item.Id == params.RestaurantId);
 
   const searchParams = useSearchParams();
@@ -286,7 +290,7 @@ export default function RestaurantMenu({params}) {
               <div className={styles.filter}>
                 <Box display={'flex'} justifyContent={'flex-end'}>
                   <ThemeProvider theme={theme}>
-                    {/Boton de reestablecer filtros/}
+                    {/*Boton de reestablecer filtros*/}
                     <Tooltip title="Reestablecer" placement='top' arrow>
                       <button onClick={resetFilters}>
                         <Replay sx={{ color: '#C62828' }} />
@@ -311,7 +315,7 @@ export default function RestaurantMenu({params}) {
                   </div>
                 <Heading as='h4' size='md'>Categorias</Heading>
                 <ThemeProvider theme={theme}>
-                  {/Aqui van las categorias de comida/}
+                  {/*Aqui van las categorias de comida*/}
 
                   <FormControlLabel 
                     control={<Checkbox  
@@ -354,7 +358,7 @@ export default function RestaurantMenu({params}) {
                     },
                   }}/>} label="Vegana"/>
                   </ThemeProvider>
-                  {/Aqui van los tipos de comida/}
+                  {/*Aqui van los tipos de comida*/}
                   <Heading as='h4' size='md'>Tipos</Heading>
                   <ThemeProvider theme={theme}>
                   <FormControlLabel 
@@ -377,8 +381,9 @@ export default function RestaurantMenu({params}) {
                       color: '#C62828',
                     },
                   }}/>} label="Nuggets"/>
-                  {console.log('comida:', food)}
-                  {console.log('categoria:',category)}
+                  {console.log('categoria', category)}
+                  {console.log('food', food)}
+
                 </ThemeProvider>
               </div>
               <div className={styles.menu}>
