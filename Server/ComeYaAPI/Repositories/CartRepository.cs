@@ -54,7 +54,7 @@ namespace ComeYaAPI.Repositories
            
         }
 
-        public async Task<EntityListResult<ShowCartItemDTO>> GetCartItems(int userId,int page = 1)
+        public async Task<EntityListResult<ShowCartItemDTO>> GetCartItems(int userId,int page =0)
         {
 
             var result = new EntityListResult<ShowCartItemDTO>();
