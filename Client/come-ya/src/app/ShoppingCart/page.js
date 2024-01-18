@@ -11,6 +11,16 @@ import Link from 'next/link'
 const ShoppingCart = () => {
   const [page, setPage] = useState(1);
 
+  const updateQuantity= async (itemId,qty)=>{
+    try {
+       await Apiservice.patch(`Cart/UpdateQty`,{itemId:itemId, quantity:qty});
+      
+    } catch (error) {
+      // Manejar errores si es necesario
+      console.error('Error al modificar cantidad', error);
+    }
+  }
+
   const handleChange = (event, value) => {
     setPage(value);
   };
@@ -34,7 +44,7 @@ const ShoppingCart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await Apiservice.get(`Cart/CartItems?page=1`);
+        const response = await Apiservice.get(`Cart/CartItems?page=${page}`);
         if (response && Array.isArray(response)) {
           setCartState(response);
         } else {
@@ -47,7 +57,7 @@ const ShoppingCart = () => {
     };
 
     fetchData();
-  }, []);
+  }, [page]);
 
   useEffect(() => {
     // Este efecto se ejecutará cada vez que cartState cambie
@@ -89,6 +99,8 @@ const ShoppingCart = () => {
     }
   }
   const handleQuantityChange = (id, quantity) => {
+
+    updateQuantity(id,quantity)
     // Utiliza map para crear un nuevo array con los cambios
     const updatedCart = cartState.map(item => {
       // Verifica si este es el objeto que deseas actualizar

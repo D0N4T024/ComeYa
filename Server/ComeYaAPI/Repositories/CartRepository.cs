@@ -54,7 +54,7 @@ namespace ComeYaAPI.Repositories
            
         }
 
-        public async Task<EntityListResult<ShowCartItemDTO>> GetCartItems(int userId,int page =0)
+        public async Task<EntityListResult<ShowCartItemDTO>> GetCartItems(int userId,int page=1)
         {
 
             var result = new EntityListResult<ShowCartItemDTO>();
@@ -66,8 +66,8 @@ namespace ComeYaAPI.Repositories
                 );
             
 
-             var pagedRecords =  Paginate(cartList, page,5M);
-             var cartItemDTOList = cartList
+             var pagedRecords =  Paginate(cartList, page,3M);
+             var cartItemDTOList = pagedRecords
                 .Select(cart => new ShowCartItemDTO
              {
                  Id = cart.ItemId,

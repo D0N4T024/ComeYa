@@ -142,36 +142,82 @@ export default function RestaurantMenu({params}) {
   const [sliderValue, setSliderValue] = useState(defaultFilters.sliderValue);
   const [category, setCategory] = useState(defaultFilters.category);
   const [food, setFood] = useState(defaultFilters.food);
+  const [tipos,setTipos] = useState([])
+  const [categorias,setCategorias] = useState([])
+ const [newPrice,setNewPrice]=useState(0)
+  
+  
+
+  const addStringToList = (list, setList, newString) => {
+    setList(prevList => {
+      // Verifica si el nuevo string ya está en la lista
+      if (!prevList.includes(newString)) {
+        // Crea una nueva lista con el nuevo string
+        return [...prevList, newString];
+      }
+      // Si el string ya está en la lista, no hace cambios
+      return prevList;
+    });
+  };
+
+  const removeStringFromList = (list, setList, stringToRemove) => {
+    setList(prevList => {
+      
+      return prevList.filter(item => item !== stringToRemove);
+    });
+  };
+
+  const handleAddRemove = (checked, list,setList, filter) => {
+    if(checked !== true){
+      addStringToList(list,setList,filter)
+    }
+    else{
+      removeStringFromList(list,setList,filter)
+    }
+  }
+
   const [parameters, setParameters] = useState({
     restaurant: parseInt(params.RestaurantId),
-    category:"",
-    food: ""
+    categories:[],
+    types: [],
+    combo:2,
+    price:0
+
   })
 
-  //console.log(params);
-    useEffect(() => {
-      //console.log(params)
-      const fetchData = async () => {
-        try {
-          // Hacer la solicitud GET o POST según sea necesario
-          const response = await Apiservice.get(`Restaurants/${params.RestaurantId}`);
-          
-          setData(response);
-          const response2 = await Apiservice.get(`Items/AllItems`,parameters);
-          //sconsole.log(response2)
-          //console.log('Respuesta:', response);  
-          setItems(response2)
-        
-          // Puedes hacer más acciones según tus necesidades
-         ;
-        } catch (error) {
-          console.error('Error al obtener datos:', error);
-         // console.error("El error es",error);
-        }
-      };
+  useEffect(() => {
+    setParameters(prevParameters => ({ ...prevParameters, price:newPrice,categories: categorias }));
+  }, [categorias,newPrice]);
   
-      fetchData();
-    }, [params.RestaurantId,parameters]);
+  useEffect(() => {
+    
+    
+    
+    const fetchData = async () => {
+      try {
+       
+        let id = parseInt(params.RestaurantId)
+        // Hacer la solicitud GET o POST según sea necesario
+        const response = await Apiservice.get(`Restaurants/${params.RestaurantId}`);
+        setData(response);
+        
+
+        console.log(parameters)
+        const response2 = await Apiservice.get(`Items/AllItems`, {restaurant:parameters.restaurant, 
+          categories: parameters.categories.length > 0 ? parameters.categories.join(',') : null, price:parameters.price});
+
+
+        console.log(response2)
+        setItems(response2);
+  
+        // Puedes hacer más acciones según tus necesidades
+      } catch (error) {
+        console.error('Error al obtener datos:', error);
+      }
+    };
+  
+    fetchData();
+  }, [params.RestaurantId, parameters]);
 
   const openModal = (item) => {
     setProductInfo(item);
@@ -207,6 +253,22 @@ export default function RestaurantMenu({params}) {
   };
 
   const handlePriceChange = (event, newValue) => {
+   
+    console.log(newValue)
+    if(newValue === 0){
+      setNewPrice(100);
+    }
+    else if(newValue ===33.4){
+      setNewPrice(400)
+    }else if(newValue == 66.8){
+      setNewPrice(700)
+    }else{
+      setNewPrice(10000)
+    }
+    
+    
+
+    setParameters({price:newPrice})
     setSliderValue(newValue); // Actualiza el estado del slider
   };
 
@@ -215,6 +277,7 @@ export default function RestaurantMenu({params}) {
       ...prevCategory,
       [categoryName]: prevCategory[categoryName] === categoryName ? "" : categoryName,
     }));
+    
   };
 
   const handleFoodChange = (foodName) => {
@@ -225,6 +288,7 @@ export default function RestaurantMenu({params}) {
   };
 
   const resetFilters = () => {
+    setNewPrice(0)
     setSliderValue(defaultFilters.sliderValue);
     setCategory(defaultFilters.category);
     setFood(defaultFilters.food);
@@ -255,7 +319,9 @@ export default function RestaurantMenu({params}) {
     modalState = false;
     info = {};
   }
- console.log(info)
+
+  
+ 
   const [isModalOpen, setIsModalOpen] = useState(modalState);
 
   const [productInfo, setProductInfo] = useState(info);
@@ -310,7 +376,6 @@ export default function RestaurantMenu({params}) {
                         marks={marks}
                         valueLabelDisplay="off"
                       />
-                      {console.log(sliderValue)}
                     </ThemeProvider>
                   </div>
                 <Heading as='h4' size='md'>Categorias</Heading>
@@ -319,7 +384,10 @@ export default function RestaurantMenu({params}) {
 
                   <FormControlLabel 
                     control={<Checkbox  
-                      onChange={() => handleCategoryChange('cafe')}
+                      onChange={() => {handleCategoryChange('cafe')
+                      handleAddRemove(category.cafe==='cafe',categorias, setCategorias,'Cafe')
+                    }}
+
                       checked={category.cafe === 'cafe'}
                       sx={{
                       color: '#D81B60',
@@ -329,7 +397,10 @@ export default function RestaurantMenu({params}) {
                     }}/>} label="Cafe"/>
                     <FormControlLabel 
                     control={<Checkbox  
-                      onChange={() => handleCategoryChange('refresco')}
+                      onChange={() => {handleCategoryChange('refresco')
+                      handleAddRemove(category.refresco ==='refresco',categorias, setCategorias,'Refresco')
+                    }}
+                      
                       checked={category.refresco === 'refresco'}
                       sx={{
                       color: '#D81B60',
@@ -339,7 +410,9 @@ export default function RestaurantMenu({params}) {
                     }}/>} label="Refresco"/>
                     <FormControlLabel 
                     control={<Checkbox  
-                      onChange={() => handleCategoryChange('postre')}
+                      onChange={() => {handleCategoryChange('postre')
+                      handleAddRemove(category.postre ==='postre',categorias, setCategorias,'Postre')
+                    }}
                       checked={category.postre === 'postre'}
                       sx={{
                       color: '#D81B60',
@@ -349,7 +422,9 @@ export default function RestaurantMenu({params}) {
                     }}/>} label="Postre"/>
                   <FormControlLabel 
                   control={<Checkbox  
-                    onChange={() => handleCategoryChange('vegana')}
+                    onChange={() => {handleCategoryChange('vegana')
+                      handleAddRemove(category.vegana ==='vegana',categorias, setCategorias,'Vegana')
+                    }}
                     checked={category.vegana === 'vegana'}
                     sx={{
                     color: '#D81B60',
@@ -359,32 +434,8 @@ export default function RestaurantMenu({params}) {
                   }}/>} label="Vegana"/>
                   </ThemeProvider>
                   {/*Aqui van los tipos de comida*/}
-                  <Heading as='h4' size='md'>Tipos</Heading>
-                  <ThemeProvider theme={theme}>
-                  <FormControlLabel 
-                  control={<Checkbox  
-                    onChange={() => handleFoodChange('hamburguesa')}
-                    checked={food.hamburguesa === 'hamburguesa'}
-                    sx={{
-                    color: '#D81B60',
-                    '&.Mui-checked': {
-                      color: '#C62828',
-                    },
-                  }}/>} label="Hamburguesa"/>
-                  <FormControlLabel 
-                  control={<Checkbox 
-                    onChange={() => handleFoodChange('nuggets')}
-                    checked={food.nuggets === 'nuggets'}
-                    sx={{
-                    color: '#D81B60',
-                    '&.Mui-checked': {
-                      color: '#C62828',
-                    },
-                  }}/>} label="Nuggets"/>
-                  {console.log('categoria', category)}
-                  {console.log('food', food)}
-
-                </ThemeProvider>
+                  
+                  
               </div>
               <div className={styles.menu}>
                   {restItems.map((item, index) => {
@@ -407,7 +458,7 @@ export default function RestaurantMenu({params}) {
                                 <Badge borderRadius='full' px='2' mr='2' colorScheme='teal'>
                                   {item.category}
                                 </Badge>
-                                <Heading as='h4' size='md' fontWeight='semibold' noOfLines={1}>{item.food}</Heading>
+                                <Heading as='h4' size='md' fontWeight='semibold' noOfLines={1}>{item.name}</Heading>
                             </Box>
                             <Box>
                               <Text fontSize='lg'>DOP${item.price}</Text>

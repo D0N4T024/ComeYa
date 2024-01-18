@@ -38,7 +38,7 @@ namespace ComeYaAPI.Controllers
 
         [HttpGet]
         [Route("CartItems")]
-        public async Task<ActionResult<ICollection<ShowCartItemDTO>>> GetAllCartItems(int page =0) 
+        public async Task<ActionResult<ICollection<ShowCartItemDTO>>> GetAllCartItems(int page =1) 
         {
             
 
