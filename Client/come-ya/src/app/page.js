@@ -30,7 +30,7 @@ export default function Home() {
         // Puedes hacer más acciones según tus necesidades
        
       } catch (error) {
-        console.error('Error al obtener datos:', error);
+        //console.error('Error al obtener datos:', error);
       }
     };
     

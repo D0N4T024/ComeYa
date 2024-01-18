@@ -107,7 +107,7 @@ export default function Restaurants() {
           // Puedes hacer más acciones según tus necesidades
           setData(response);
         } catch (error) {
-          console.error('Error al obtener datos:', error);
+          //console.error('Error al obtener datos:', error);
         }
       };
   

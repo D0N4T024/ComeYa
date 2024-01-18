@@ -13,19 +13,11 @@ namespace ComeYaAPI.Services
         public async Task SendEmail(string toEmail, string code)
         {
             string htmlBody = "<html><body>";
-            htmlBody += "<h1>Esto es un título</h1>";
-            htmlBody += "<p>Este es un párrafo de ejemplo.</p>";
-            htmlBody += $"<p>Puedes hacer clic en el siguiente enlace:</p>";
-            htmlBody += $"<a href='javascript:void(0);' onclick='sendPatchRequest({code})'>Realizar PATCH</a>";
-            htmlBody += "<script>";
-            htmlBody += "function sendPatchRequest(parametro) {";
-            htmlBody += "  var xhr = new XMLHttpRequest();";
-            htmlBody += "  xhr.open('PATCH', 'https://tuapi.com/tu-endpoint', true);";
-            htmlBody += "  xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');";
-            htmlBody += "  var payload = { parametro: parametro };";  // Reemplaza con tu estructura de payload
-            htmlBody += "  xhr.send(JSON.stringify(payload));";
-            htmlBody += "}";
-            htmlBody += "</script>";
+            htmlBody += "<h1>ComeYa</h1>";
+            htmlBody += "<p>Disfruta de las mejores comidas con el mejor servicio</p>";
+            htmlBody += $"<p>Activa tu cuenta con el enlace de abajo usando este codigo {code}</p>";
+            htmlBody += $"<a href='http://localhost:3000/Account/VerifyAccount'>VERIFICATE YA!</a>";
+           
             htmlBody += "</body></html>";
 
             string fromMail = _configuration["EmailService:FromMail"]!;
