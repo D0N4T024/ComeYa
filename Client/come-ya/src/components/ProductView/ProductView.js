@@ -6,8 +6,11 @@ import {AddShoppingCartIcon, FormControl, Select, MenuItem, Box }  from '@mui/ma
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useState } from 'react'
 import Apiservice from '@/Apiservice';
+import { useRouter } from 'next/navigation';
 
 const ProductView = ({ onClose, ...props }) => {
+  const router =  useRouter();
+  const [cartState, setCartState] = useState([''])
   console.log(props)
   const addItem = async (itemId, quantity, itemName) => {
   try {
@@ -19,6 +22,7 @@ const ProductView = ({ onClose, ...props }) => {
       position: "top-right",
       duration: 8000,
     })
+    setCartState(['Suceess', 'Error'])
   } catch (error) {
     console.error('Error al registrar usuario:', error);
     toast({
@@ -47,6 +51,7 @@ const ProductView = ({ onClose, ...props }) => {
   };
   const onSubmit = () => {
     addItem(props.id, quantity, props.name)
+    router.push('/ShoppingCart');
     onClose();
   }
   if(!props){
