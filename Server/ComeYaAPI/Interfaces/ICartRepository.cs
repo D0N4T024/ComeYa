@@ -8,7 +8,7 @@ namespace ComeYaAPI.Interfaces
 {
     public interface ICartRepository: IRepository<Cart>
     {
-        Task<EntityListResult<ShowCartItemDTO>> GetCartItems(int userId, int page=1);
+        Task<EntityListResult<ShowCartItemDTO>> GetCartItems(int userId, int page=0);
         Task<EntityListResult<ShowCartItemDTO>> AddCartItem(AddCartItemDTO itemDTO);
         Task UpdateQty(UpdateQtyDTO qty);
         Task<bool> CheckIfEmpty(int id);
