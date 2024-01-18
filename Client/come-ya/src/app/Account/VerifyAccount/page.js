@@ -3,8 +3,24 @@ import styles from './VerifyAccount.module.css'
 import { Heading } from '@chakra-ui/react'
 import { Formik, Form, Field, ErrorMessage } from 'formik'
 import { useRouter } from 'next/navigation'
+import Apiservice from '@/Apiservice'
 
 const VerifyAccount = () => {
+
+  const verifyUser = (code) => {
+    const fetchData = async () => {
+        try {
+            // Hacer la solicitud GET o POST según sea necesario
+            const response = await Apiservice.patch(`Users/ActivateUser`, code);
+            // Aquí puedes hacer algo con la respuesta si es necesario
+        } catch (error) {
+          console.log(error)
+            // Manejar errores si es necesario
+        }
+    };
+
+    fetchData();
+}
     const router = useRouter();
 
     return(
@@ -32,7 +48,8 @@ const VerifyAccount = () => {
                       return error;
                     }}
 
-                    onSubmit={() => {
+                    onSubmit={(values) => {
+                      verifyUser(values.code)
                       router.push('/')
 
                     }}

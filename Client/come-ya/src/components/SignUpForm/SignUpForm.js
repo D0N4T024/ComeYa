@@ -117,7 +117,7 @@ const SignUpForm = ({ onClose }) => {
           position: "top-right",
           duration: 8000,
         })
-       // onClose();
+       onClose();
       }}
     >   
       {( {errors } ) => (
