@@ -3,27 +3,30 @@ import styles from "./ShoppingCart.module.css"
 import { useState, useEffect } from 'react';
 import Apiservice from "@/Apiservice";
 import { Card, CardBody, Heading, Text, Box, Image, Button } from '@chakra-ui/react'
-import { FormControl, Select, MenuItem } from '@mui/material'
+import { FormControl, Select, MenuItem, Pagination } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import ProductionQuantityLimitsRoundedIcon from '@mui/icons-material/ProductionQuantityLimitsRounded';
 import Link from 'next/link'
 
 const ShoppingCart = () => {
-  
-  
-  
-    const handleClick = async () => {
-      try {
-        const response = await Apiservice.post(`Cart/PurchaseOrderStripe`);
-        const url = response; // Asegúrate de obtener la URL correctamente desde la respuesta
-  
-        // Navegar a la URL después de obtenerla
-        window.location.href = url;
-      } catch (error) {
-        // Manejar errores si es necesario
-        console.error('Error al obtener la URL de compra:', error);
-      }
-    };
+  const [page, setPage] = useState(1);
+
+  const handleChange = (event, value) => {
+    setPage(value);
+  };
+
+  const handleClick = async () => {
+    try {
+      const response = await Apiservice.post(`Cart/PurchaseOrderStripe`);
+      const url = response; // Asegúrate de obtener la URL correctamente desde la respuesta
+
+      // Navegar a la URL después de obtenerla
+      window.location.href = url;
+    } catch (error) {
+      // Manejar errores si es necesario
+      console.error('Error al obtener la URL de compra:', error);
+    }
+  };
  
 
   const [cartState, setCartState] = useState([]);
@@ -166,18 +169,20 @@ const ShoppingCart = () => {
         })}
         {cartItemsCounter !== 0 ? (
           <Box display='flex' alignItems='flex-end' flexDirection='column'>
-            <Heading size='sm' my={4}>Subtotal ({cartItemsCounter} productos): ${cartItemsSubtotal} </Heading>
+            <Heading size='sm' my={4}>Subtotal ({cartItemsCounter} productos): ${cartItemsSubtotal.toFixed(2)} </Heading>
             <Button
-                  mt={4}
-                  backgroundColor='yellow.400'
-                  colorScheme='yellow'
-                  width={'100%'}
-                  p={6}
-      onClick={handleClick}
-    >
-      PROCESAR COMPRA
-    </Button> 
-            
+              mt={4}
+              backgroundColor='yellow.400'
+              colorScheme='yellow'
+              width={'100%'}
+              p={6}
+              onClick={handleClick}
+            >
+              PROCESAR COMPRA
+            </Button> 
+            <Box mt={6} alignSelf='center'>
+              <ThemeProvider theme={theme}><Pagination count={10} page={page} onChange={handleChange} color='error'/></ThemeProvider>
+            </Box>
           </Box>
         ):(
           <Box display='flex' flexDirection='column' justifyContent='center' alignItems='center'>
