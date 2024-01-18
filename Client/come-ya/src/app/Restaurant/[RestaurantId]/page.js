@@ -126,14 +126,14 @@ export default function RestaurantMenu({params}) {
   const defaultFilters = {
     sliderValue: 100,
     category: {
-      cafe: false,
-      refresco: false,
-      postre: false,
-      vegana: false,
+      cafe: "",
+      refresco: "",
+      postre: "",
+      vegana: "",
     },
     food: {
-      nuggets: false,
-      hamburguesa: false,
+      nuggets: "",
+      hamburguesa: "",
     },
   };
   
@@ -213,14 +213,14 @@ export default function RestaurantMenu({params}) {
   const handleCategoryChange = (categoryName) => {
     setCategory((prevCategory) => ({
       ...prevCategory,
-      [categoryName]: !prevCategory[categoryName],
+      [categoryName]: prevCategory[categoryName] === categoryName ? "" : categoryName,
     }));
   };
 
   const handleFoodChange = (foodName) => {
     setFood((prevFood) => ({
       ...prevFood,
-      [foodName]: !prevFood[foodName],
+      [foodName]: prevFood[foodName] === foodName ? "" : foodName,
     }));
   };
 
@@ -229,10 +229,6 @@ export default function RestaurantMenu({params}) {
     setCategory(defaultFilters.category);
     setFood(defaultFilters.food);
   };
-
-
- 
-
 
   //const restaurant = restaurantes.find(item => item.Id == params.RestaurantId);
 
@@ -320,7 +316,7 @@ export default function RestaurantMenu({params}) {
                   <FormControlLabel 
                     control={<Checkbox  
                       onChange={() => handleCategoryChange('cafe')}
-                      checked={category.cafe}
+                      checked={category.cafe === 'cafe'}
                       sx={{
                       color: '#D81B60',
                       '&.Mui-checked': {
@@ -330,7 +326,7 @@ export default function RestaurantMenu({params}) {
                     <FormControlLabel 
                     control={<Checkbox  
                       onChange={() => handleCategoryChange('refresco')}
-                      checked={category.refresco}
+                      checked={category.refresco === 'refresco'}
                       sx={{
                       color: '#D81B60',
                       '&.Mui-checked': {
@@ -340,7 +336,7 @@ export default function RestaurantMenu({params}) {
                     <FormControlLabel 
                     control={<Checkbox  
                       onChange={() => handleCategoryChange('postre')}
-                      checked={category.postre}
+                      checked={category.postre === 'postre'}
                       sx={{
                       color: '#D81B60',
                       '&.Mui-checked': {
@@ -350,7 +346,7 @@ export default function RestaurantMenu({params}) {
                   <FormControlLabel 
                   control={<Checkbox  
                     onChange={() => handleCategoryChange('vegana')}
-                    checked={category.vegana}
+                    checked={category.vegana === 'vegana'}
                     sx={{
                     color: '#D81B60',
                     '&.Mui-checked': {
@@ -364,7 +360,7 @@ export default function RestaurantMenu({params}) {
                   <FormControlLabel 
                   control={<Checkbox  
                     onChange={() => handleFoodChange('hamburguesa')}
-                    checked={food.hamburguesa}
+                    checked={food.hamburguesa === 'hamburguesa'}
                     sx={{
                     color: '#D81B60',
                     '&.Mui-checked': {
@@ -374,13 +370,15 @@ export default function RestaurantMenu({params}) {
                   <FormControlLabel 
                   control={<Checkbox 
                     onChange={() => handleFoodChange('nuggets')}
-                    checked={food.nuggets}
+                    checked={food.nuggets === 'nuggets'}
                     sx={{
                     color: '#D81B60',
                     '&.Mui-checked': {
                       color: '#C62828',
                     },
                   }}/>} label="Nuggets"/>
+                  {console.log('comida:', food)}
+                  {console.log('categoria:',category)}
                 </ThemeProvider>
               </div>
               <div className={styles.menu}>
