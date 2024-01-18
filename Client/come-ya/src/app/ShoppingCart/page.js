@@ -70,6 +70,21 @@ const ShoppingCart = () => {
     setCartItemsSubtotal(cartState.reduce((itemSubtotal, item) => itemSubtotal + item.amount, 0))
   },[cartState])
 
+
+  const deleteItem = async (itemId) =>{
+    
+    try {
+      
+      //console.log(itemId)
+      const response = await Apiservice.delete(`Cart/DeleteItem?itemId=${itemId}`);
+      console.log(response);
+      
+    } catch (error) {
+      console.error('Error al registrar usuario:', error);
+      
+      
+    }
+  }
   const handleQuantityChange = (id, quantity) => {
     // Utiliza map para crear un nuevo array con los cambios
     const updatedCart = cartState.map(item => {
@@ -85,6 +100,7 @@ const ShoppingCart = () => {
       }
       // Si no es el objeto que deseas actualizar, retorna el objeto sin cambios
       return item;
+      
     });
 
     // Actualiza el estado con el nuevo array
@@ -134,7 +150,8 @@ const ShoppingCart = () => {
                                 </Select>
                               </FormControl>
                             </ThemeProvider>
-                            <button onClick={(event) => handleQuantityChange(item.id, 0)}>Eliminar</button>
+                            <button onClick={(event) => {handleQuantityChange(item.id, 0)
+                            deleteItem(item.id)}}>Eliminar</button>
                           </Box>
                       </Box>
                       <Box >

@@ -122,8 +122,12 @@ namespace ComeYaAPI.Controllers
 
         [HttpDelete]
         [Route("DeleteItem")]
-        public async Task<ActionResult> DeleteItem([FromBody] DeleteCartItemDTO itemDTO)
+        public async Task<ActionResult> DeleteItem([FromQuery] int itemId)
         {
+            var itemDTO = new DeleteCartItemDTO
+            {
+                ItemId = itemId
+            };
             itemDTO.AssignUserId(User);
             try
             {
