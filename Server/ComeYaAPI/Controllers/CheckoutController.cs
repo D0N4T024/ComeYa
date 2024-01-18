@@ -74,8 +74,8 @@ public class CheckoutController : ControllerBase
             }
 
             // Construir las URLs de éxito y cancelación
-            var successUrl = "https://localhost:7057/checkout/success";
-            var cancelUrl = "https://localhost:7057/checkout/cancel";
+            var successUrl = "http://localhost:3000/Account/OrdersHistory";
+            var cancelUrl = "http://localhost:3000/ShoppingCart";
             // var successUrl = $"{Request.Scheme}://{Request.Host}/checkout/success";
             //var cancelUrl = $"{Request.Scheme}://{Request.Host}/checkout/cancel";
             try {

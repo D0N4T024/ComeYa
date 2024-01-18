@@ -10,6 +10,21 @@ import Link from 'next/link'
 
 const ShoppingCart = () => {
   
+  
+  
+    const handleClick = async () => {
+      try {
+        const response = await Apiservice.post(`Cart/PurchaseOrderStripe`);
+        const url = response; // Asegúrate de obtener la URL correctamente desde la respuesta
+  
+        // Navegar a la URL después de obtenerla
+        window.location.href = url;
+      } catch (error) {
+        // Manejar errores si es necesario
+        console.error('Error al obtener la URL de compra:', error);
+      }
+    };
+ 
 
   const [cartState, setCartState] = useState([]);
 
@@ -135,9 +150,16 @@ const ShoppingCart = () => {
         {cartItemsCounter !== 0 ? (
           <Box display='flex' alignItems='flex-end' flexDirection='column'>
             <Heading size='sm' my={4}>Subtotal ({cartItemsCounter} productos): ${cartItemsSubtotal} </Heading>
-            <Link href={'/'} style={{ width:'100%'}}>
-              <Button mt={4} backgroundColor='yellow.400' colorScheme='yellow' width={'100%'} p={6}>PROCESAR COMPRA</Button>
-            </Link> 
+            <Button
+                  mt={4}
+                  backgroundColor='yellow.400'
+                  colorScheme='yellow'
+                  width={'100%'}
+                  p={6}
+      onClick={handleClick}
+    >
+      PROCESAR COMPRA
+    </Button> 
             
           </Box>
         ):(

@@ -27,6 +27,7 @@ namespace ComeYaAPI.Services.Stripe
                 LineItems = lineItems,
                 Mode = "payment",
                 SuccessUrl = successUrl,
+                Locale="es",
                 CancelUrl = cancelUrl,
                 CustomerEmail= email
                 
