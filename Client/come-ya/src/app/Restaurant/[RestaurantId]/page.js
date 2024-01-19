@@ -200,14 +200,8 @@ export default function RestaurantMenu({params}) {
         // Hacer la solicitud GET o POST según sea necesario
         const response = await Apiservice.get(`Restaurants/${params.RestaurantId}`);
         setData(response);
-        
-
-        console.log(parameters)
         const response2 = await Apiservice.get(`Items/AllItems`, {restaurant:parameters.restaurant, 
-          categories: parameters.categories.length > 0 ? parameters.categories.join(',') : null, price:parameters.price});
-
-
-        console.log(response2)
+        categories: parameters.categories.length > 0 ? parameters.categories.join(',') : null, price:parameters.price});
         setItems(response2);
   
         // Puedes hacer más acciones según tus necesidades
@@ -253,8 +247,6 @@ export default function RestaurantMenu({params}) {
   };
 
   const handlePriceChange = (event, newValue) => {
-   
-    console.log(newValue)
     if(newValue === 0){
       setNewPrice(100);
     }
@@ -294,10 +286,6 @@ export default function RestaurantMenu({params}) {
     setFood(defaultFilters.food);
   };
 
-
- 
-
-
   //const restaurant = restaurantes.find(item => item.Id == params.RestaurantId);
 
   const searchParams = useSearchParams();
@@ -319,8 +307,6 @@ export default function RestaurantMenu({params}) {
     modalState = false;
     info = {};
   }
-
-  
  
   const [isModalOpen, setIsModalOpen] = useState(modalState);
 

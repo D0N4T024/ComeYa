@@ -7,9 +7,6 @@ import Apiservice from '@/Apiservice';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
-//Objeto de ejemplo
-
-
 const MainCarousel = () => {
   const [restaurants,setRestaurants] = useState([])
   const fetchData = async () => {

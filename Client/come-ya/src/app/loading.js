@@ -2,11 +2,11 @@ import { Spinner } from '@chakra-ui/react'
 function LoadingPage() {
     return(
         <div style={styles.background}>
-                <Spinner 
-                thickness='4px'
-                color='red.500'
-                size='xl' 
-                />
+          <Spinner 
+          thickness='4px'
+          color='red.500'
+          size='xl' 
+          />
         </div>
     )
 }

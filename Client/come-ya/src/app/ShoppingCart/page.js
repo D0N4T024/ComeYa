@@ -58,11 +58,6 @@ const ShoppingCart = () => {
 
     fetchData();
   }, [page]);
-
-  useEffect(() => {
-    // Este efecto se ejecutará cada vez que cartState cambie
-    console.log('Carrito actualizado:', cartState);
-  }, [cartState]);
   
   let theme = createTheme({
     palette: {
@@ -87,11 +82,7 @@ const ShoppingCart = () => {
   const deleteItem = async (itemId) =>{
     
     try {
-      
-      //console.log(itemId)
       const response = await Apiservice.delete(`Cart/DeleteItem?itemId=${itemId}`);
-      console.log(response);
-      
     } catch (error) {
       console.error('Error al registrar usuario:', error);
       

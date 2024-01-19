@@ -3,7 +3,6 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import styles from './SignInForm.module.css'
 import { Button } from '@mui/material';
 import Apiservice from '@/Apiservice';
-import { LinkOff } from '@mui/icons-material';
 
 const SignUp = ({ onClose }) => {
 
@@ -13,7 +12,6 @@ const SignUp = ({ onClose }) => {
       // Hacer la solicitud POST para el registro
       const response = await Apiservice.post('Users/Auth/SignIn', {email,password});
       localStorage.setItem("token", response.token)
-      console.log(response);
     
     } catch (error) {
       console.error( error);

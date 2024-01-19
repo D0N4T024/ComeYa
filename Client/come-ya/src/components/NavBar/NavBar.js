@@ -4,18 +4,18 @@ import styles from './NavBar.module.css'
 import Link from 'next/link'
 import * as React from 'react';
 import Box from '@mui/system/Box';
-import { Stack, TextField, IconButton, Badge, Tooltip, Button, Menu, MenuItem } from '@mui/material';
+import { Stack, IconButton, Badge, Menu, MenuItem } from '@mui/material';
 import OpenModal from '../OpenModal/OpenModal';
-import { ChakraProvider, Heading } from '@chakra-ui/react'
+import { ChakraProvider, Image } from '@chakra-ui/react'
 import Paper from '@mui/material/Paper';
 import InputBase from '@mui/material/InputBase';
-import Autocomplete from '@mui/material/Autocomplete';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import ThemeSwitcher from '../ThemeSwitcher/ThemeSwitcher';
 import CloseRounded from '@mui/icons-material/CloseRounded';
 import { MoreVert } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
+import Apiservice from '@/Apiservice';
 
 function notificationsLabel(count) {
   if (count === 0) {
@@ -29,48 +29,53 @@ function notificationsLabel(count) {
 
 export default function NavBar(){
 
-  //Objetos de ejemplo
-  const top100Films = [
-    { title: 'The Shawshank Redemption', year: 1994 },
-    { title: 'The Godfather', year: 1972 },
-    { title: 'The Godfather: Part II', year: 1974 },
-    { title: 'The Dark Knight', year: 2008 },
-    { title: '12 Angry Men', year: 1957 },
-    { title: "Schindler's List", year: 1993 },
-    { title: 'Pulp Fiction', year: 1994 },
-  ];
 
-  const cart = [
-    {
-      "id": 43,
-      "name": "Rollito Playbe",
-      "description": null,
-      "price": 395,
-      "quantity": 3,
-      "amount": 1398.3,
-      "image": "https://imgur.com/FXd7EJm.png"
-    },
-    {
-      "id": 45,
-      "name": "David Sakayama",
-      "description": null,
-      "price": 795,
-      "quantity": 4,
-      "amount": 3752.4,
-      "image": "https://imgur.com/wS6xKn9.png"
-    },
-    {
-      "id": 46,
-      "name": "Pokesemeimpolta",
-      "description": null,
-      "price": 475,
-      "quantity": 3,
-      "amount": 1681.5,
-      "image": "https://imgur.com/qlePTJy.png"
-    },
-  ]
+
+  const router = useRouter();
 
   const [cartItemsCounter, setCartItemsCounter] = useState(0);
+
+  const [cartState, setCartState] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await Apiservice.get(`Cart/CartItems`);
+        if (response && Array.isArray(response)) {
+          setCartState(response);
+        } else {
+          setCartState([]); // Asigna un array vacío si la respuesta no es un array
+        }
+      } catch (error) {
+        console.error('Error al obtener datos:', error);
+        // Manejar errores aquí si es necesario
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
+  const isAuthenticated = () => {
+    const token = localStorage.getItem('token');
+  return token !== null && token !== undefined && token !== '';
+  };
+
+  const [autenticado, setAutenticado] = useState(isAuthenticated());
+
+  useEffect(() => {
+    // Verificar la autenticación cuando el componente se monta
+    setAutenticado(isAuthenticated());
+  }, []);
+
+  useEffect (() => {
+    setCartItemsCounter(cartState.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0))
+  },[cartState])
+
+
+
+
+
 
   const [searchValue, setSearchValue] = useState('');
 
@@ -80,16 +85,9 @@ export default function NavBar(){
     setAnchorEl(event.currentTarget);
   };
   const handleLogOut = () => {
+    localStorage.removeItem('token');
     setAnchorEl(null);
   };
-
-
-
-  useEffect (() => {
-    setCartItemsCounter(cart.reduce((accumulator, currentValue) => accumulator + currentValue.quantity, 0))
-  },[cart])
-
-  const router = useRouter();
 
   const handleSearch = () => {
     // Lógica para realizar la búsqueda con searchValue
@@ -108,11 +106,15 @@ export default function NavBar(){
       <Box className={styles.navLeft}>
         <Box className={styles.logo}>
           <Link href='/'>
-            <img className={styles.imgLogo} src='imagenes/ComeYa-icono.png'>
-            </img>
+            <Image 
+              src='imagenes/ComeYa-logoNewFont.jpg'
+              width={45}
+              height={45}
+              borderRadius={'5%'}
+              objectFit='cover'
+              fallbackSrc={'https://via.placeholder.com/45x45'} />
+              
           </Link>
-          <Heading>ComeYa</Heading>
-
           <Paper variant="filled"
             component="form"
             sx={{ p: '1px 4px', display: 'flex', alignItems: 'center', minWidth: '30vw', backgroundColor: '#E5E5E5'}}
@@ -146,47 +148,54 @@ export default function NavBar(){
       </Box>
       <Box className={styles.navRight}>
         <Stack direction="row" spacing={2}>
-          <Link href={'/ShoppingCart'}>
-            <IconButton aria-label={notificationsLabel(cartItemsCounter)}>
-              <Badge badgeContent={cartItemsCounter} color="error">
-                <ShoppingCartOutlinedIcon color="error"/>
-              </Badge>
-            </IconButton>
-          </Link>
-          <ChakraProvider><ThemeSwitcher /></ChakraProvider>
-          <OpenModal //Para el prop WhatButton, si se pone "SignIn" es para el boton de Iniciar Sesion, sino es para Registrarse
-          whatButton="SignIn"
-          />
-          <OpenModal 
-          whatButton="SignUp"
-          />
-          <div>
-            <IconButton 
-              id="basic-button"
-              aria-controls={open ? 'basic-menu' : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
-              onClick={handleClick}
-      
-            >
-              <MoreVert color='error' />
-            </IconButton>
-            <Menu
-              id="basic-menu"
-              anchorEl={anchorEl}
-              open={open}
-              onClose={() => setAnchorEl(null)}
-              MenuListProps={{
-                'aria-labelledby': 'basic-button',
-              }}
-            >
-              <Link href='/Account/OrdersHistory'>
-                <MenuItem onClick={() => setAnchorEl(null)}>Historial de ordenes</MenuItem>
+          { autenticado === true ? (
+            <>
+              <Link href={'/ShoppingCart'}>
+                <IconButton aria-label={notificationsLabel(cartItemsCounter)}>
+                  <Badge badgeContent={cartItemsCounter} color="error">
+                    <ShoppingCartOutlinedIcon color="error"/>
+                  </Badge>
+                </IconButton>
               </Link>
-              <MenuItem onClick={handleLogOut}>Cerrar Sesión</MenuItem>
-            </Menu>
-          </div>
-          
+              <ChakraProvider><ThemeSwitcher /></ChakraProvider>
+              <div>
+                <IconButton 
+                  id="basic-button"
+                  aria-controls={open ? 'basic-menu' : undefined}
+                  aria-haspopup="true"
+                  aria-expanded={open ? 'true' : undefined}
+                  onClick={handleClick}
+
+                >
+                  <MoreVert color='error' />
+                </IconButton>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={() => setAnchorEl(null)}
+                  MenuListProps={{
+                    'aria-labelledby': 'basic-button',
+                  }}
+                >
+                  <Link href='/Account/OrdersHistory'>
+                    <MenuItem onClick={() => setAnchorEl(null)}>Historial de ordenes</MenuItem>
+                  </Link>
+                  <MenuItem onClick={handleLogOut}>Cerrar Sesión</MenuItem>
+                </Menu>
+              </div>
+            </>
+          ):(
+            <>
+              <ChakraProvider><ThemeSwitcher /></ChakraProvider>
+              <OpenModal //Para el prop WhatButton, si se pone "SignIn" es para el boton de Iniciar Sesion, sino es para Registrarse
+                whatButton="SignIn"
+              />
+              <OpenModal 
+                whatButton="SignUp"
+              />
+            </>
+          )}
         </Stack>
       </Box>
     </nav>

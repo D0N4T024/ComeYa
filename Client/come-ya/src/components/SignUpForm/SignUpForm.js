@@ -175,11 +175,6 @@ const SignUpForm = ({ onClose }) => {
                 name="genre" 
                 value="Otro" />
                 Otro
-              {/*<Field as="select" name="genre">
-             <option value="male">Hombre</option>
-             <option value="female">Mujer</option>
-             <option value="other">Otro</option>
-              </Field>*/}
               <ErrorMessage name='genre' component={() => (
                 <div className={styles.error}>{errors.genre}</div>
               )}/>

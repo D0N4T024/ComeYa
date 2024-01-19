@@ -34,8 +34,5 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-}
-
-.imgLogo{
-  max-width: 40px;;
+  gap: 1em;
 }

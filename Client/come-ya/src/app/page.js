@@ -1,5 +1,4 @@
 "use client"
-import LoadingPage from '@/app/loading';
 import { useEffect,useState } from 'react'
 import styles from './page.module.css'
 import Carousel from '../components/Carousel/Carousel'
@@ -24,13 +23,7 @@ export default function Home() {
         // Hacer la solicitud GET o POST según sea necesario
         const responseRestaurantCarousel = await Apiservice.get('Restaurants');
         setRestaurants(responseRestaurantCarousel);
-
-      
-
-        // Puedes hacer más acciones según tus necesidades
-       
       } catch (error) {
-        //console.error('Error al obtener datos:', error);
       }
     };
     

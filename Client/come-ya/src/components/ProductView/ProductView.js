@@ -2,7 +2,7 @@
 import LoadingPage from '@/app/loading';
 import { Image, Heading, Text, Button, useToast } from '@chakra-ui/react'
 import styles from './ProductView.module.css'
-import {AddShoppingCartIcon, FormControl, Select, MenuItem, Box }  from '@mui/material'
+import { FormControl, Select, MenuItem, Box }  from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import { useState } from 'react'
 import Apiservice from '@/Apiservice';
@@ -11,7 +11,6 @@ import { useRouter } from 'next/navigation';
 const ProductView = ({ onClose, ...props }) => {
   const router =  useRouter();
   const [cartState, setCartState] = useState([''])
-  console.log(props)
   const addItem = async (itemId, quantity, itemName) => {
   try {
     const response = await Apiservice.post('Cart/AddItem', { itemId, quantity });

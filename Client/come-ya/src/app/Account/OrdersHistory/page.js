@@ -10,7 +10,6 @@ const OrdersHistory = () => {
 
   const [orders,setOrders] = useState([]) 
   useEffect(() => {
-    //console.log(params)
     const fetchData = async () => {
       try {
         // Hacer la solicitud GET o POST según sea necesario
@@ -20,7 +19,6 @@ const OrdersHistory = () => {
         // Puedes hacer más acciones según tus necesidades
        ;
       } catch (error) {
-        //console.error('Error al obtener datos:', error);
        // console.error("El error es",error);
       }
     };
